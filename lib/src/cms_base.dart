@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 
-typedef Relay<A> =
-    Future<void> Function<T>(Stream<T> stream, A Function(T) onData);
+typedef Relay<T> = Future<void> Function(
+    Stream<T> stream, void Function(T) onData);
 
 /// Controlled Markov Stream
 abstract class Cms<S, A> extends Bloc<A, S> {
@@ -12,15 +12,14 @@ abstract class Cms<S, A> extends Bloc<A, S> {
   }
 
   /// markov kernel
-  FutureOr<S?> kernel(S s, A a, void Function(A) dispatch, Relay<A> relay);
+  FutureOr<S?> kernel(S s, A a, void Function(A) dispatch, Relay relay);
 
   Future<void> _handler(A event, Emitter<S> emit) async {
     final s = await kernel(
       state,
       event,
       add,
-      <T>(stream, onData) =>
-          emit.onEach<T>(stream, onData: (data) => add(onData(data))),
+      (stream, onData) => emit.onEach(stream, onData: onData),
     );
     if (s != null) {
       emit(s);

@@ -34,23 +34,24 @@ class NoteEditCms extends Cms<S, A> {
     S s,
     A a,
     void Function(A) dispatch,
-    Relay<A> relay,
-  ) async => switch ((s, a)) {
-    (Zero(), FetchNote(:final id)) => () async {
-      final note = id != null
-          ? await _memory.find<StickyNote>(id)
-          : StickyNote(
-              id: Random().nextInt(1000000),
-              content: "",
-              createdAt: DateTime.now(),
-            );
-      if (note == null) return Failure('Note not found');
-      return Editing(note);
-    }(),
-    (Editing(:final note), NewContent(:final content)) => Editing(
-      note.copyWith(content: content),
-    ),
-    (Editing(:final note), Pop()) => Done(note),
-    _ => Failure('algebraic error: $s -- $a -->'),
-  };
+    Relay relay,
+  ) async =>
+      switch ((s, a)) {
+        (Zero(), FetchNote(:final id)) => () async {
+            final note = id != null
+                ? await _memory.find<StickyNote>(id)
+                : StickyNote(
+                    id: Random().nextInt(1000000),
+                    content: "",
+                    createdAt: DateTime.now(),
+                  );
+            if (note == null) return Failure('Note not found');
+            return Editing(note);
+          }(),
+        (Editing(:final note), NewContent(:final content)) => Editing(
+            note.copyWith(content: content),
+          ),
+        (Editing(:final note), Pop()) => Done(note),
+        _ => Failure('algebraic error: $s -- $a -->'),
+      };
 }
