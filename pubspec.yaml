@@ -1,5 +1,5 @@
 name: cms
-description: A starting point for Dart libraries or applications.
+description: A tiny layer on top of `bloc` that models your app as **States** `S`, **Actions** `A`, and a **deterministic Markov kernel**.
 version: 1.0.0
 repository: https://github.com/BoxMeApp/cms
 
