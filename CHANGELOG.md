@@ -1,3 +1,3 @@
 ## 1.0.0
 
-- Initial version.
+- Controlled Markov Stream.

@@ -34,7 +34,7 @@ class NoteEditCms extends Cms<S, A> {
     S s,
     A a,
     void Function(A) dispatch,
-    Relay relay,
+    Relay<A> relay,
   ) async =>
       switch ((s, a)) {
         (Zero(), FetchNote(:final id)) => () async {
