@@ -1,6 +1,6 @@
-import 'package:cms/cms.dart';
+// import 'package:cms/cms.dart';
 
-void main() {
-  var awesome = Awesome();
-  print('awesome: ${awesome.isAwesome}');
-}
+// void main() {
+//   var awesome = Awesome();
+//   print('awesome: ${awesome.isAwesome}');
+// }
