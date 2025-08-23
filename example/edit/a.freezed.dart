@@ -213,7 +213,7 @@ String toString() {
 
 
 class FetchNote implements A {
-  const FetchNote(this.id);
+  const FetchNote([this.id]);
   
 
  final  int? id;

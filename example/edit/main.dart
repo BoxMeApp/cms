@@ -1,5 +1,3 @@
-import 'a.dart';
-import 's.dart';
 import 'cms.dart';
 
 void main() async {
@@ -8,7 +6,7 @@ void main() async {
 
   print(cms.state);
 
-  cms.add(FetchNote(null));
+  cms.add(FetchNote());
 
   await Future.delayed(Duration.zero);
 
