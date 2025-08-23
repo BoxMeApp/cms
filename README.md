@@ -2,6 +2,8 @@
 
 A tiny layer on top of `bloc` that models your app as **States** `S`, **Actions** `A`, and a **deterministic Markov kernel**. It gives you a single place to decide `S × A → S`, while still letting you (1) dispatch follow-up actions and (2) relay external streams into actions.
 
+![](image/model.excalidraw.svg)
+
 ## Math (deterministic kernel)
 
 * Kernel: $k: S \times A \to S$
