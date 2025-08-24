@@ -1,37 +1,26 @@
 # cms — Controlled Markov Stream
 
-A tiny layer on top of `bloc` that models your app as **States** `S`, **Actions** `A`, and a **deterministic Markov kernel**. It gives you a single place to decide `S × A → S`, while still letting you (1) dispatch follow-up actions and (2) relay external streams into actions. (Ui: y = C s + D a)
+A tiny layer on top of `bloc` that models your app as **States** `S`, **Actions** `A`, and a **deterministic Markov kernel**. It gives you a single place to decide `S × A → Δ S`, while still letting you (1) dispatch follow-up actions and (2) relay external streams into actions. (Ui: y = C s + D a)
 
 ![](image/model.excalidraw.svg)
 
 ## Math (deterministic kernel)
 
-* Kernel: $k: S \times A \to S$
-* Update: $S_{t+1} = k(S_t, A_t)$
+* Kernel: $`k: S \times A \to \Delta S`$
+* Update: $`S_{t+1} = k(S_t, A_t)`$
 
 In code, you implement:
 
 ```dart
-FutureOr<S?> kernel(
-  S state,
-  A action,
-  Relay<A> relay,            // external stream -> action
-);
+FutureOr<S?> kernel(S state, A action);
 ```
 
-Where:
-
-```dart
-typedef Relay<A> = Future<void> Function<T>(
-  Stream<T> stream,
-  A? Function(T value) toAction,
-);
-```
-
-* **dispatch(A)**: convenient way to keep advancing logic via actions (recursive/stepwise processing).
-* **relay(stream, toAction)**: turn any `Stream<T>` into actions `A` and dispatch them.
+* **add(A)**: convenient way to keep advancing logic via actions (recursive/stepwise processing).
+* **forward(stream, toAction)**: turn any `Stream<T>` into actions `A` and dispatch them.
 
 ## Quick example
+
+[source code](https://github.com/BoxMeApp/cms/tree/master/example)
 
 ### note edit
 
@@ -61,7 +50,6 @@ class NoteEditCms extends Cms<S, A> {
   Future<S?> kernel(
     S s,
     A a,
-    Relay<A> relay,
   ) async =>
       switch ((s, a)) {
         (Zero(), FetchNote(:final id)) => () async {
@@ -112,7 +100,7 @@ class M extends Cms<S, A> {
   M(this._ticker) : super(const Zero(_duration));
 
   @override
-  S? kernel(S s, A a, Relay<A> relay) => switch ((
+  S? kernel(S s, A a) => switch ((
     s,
     a,
   )) {
@@ -148,6 +136,47 @@ class M extends Cms<S, A> {
   };
 }
 ```
+
+## forward
+
+The `forward` method allows you to connect any external `Stream<T>` to your CMS logic by mapping its events into actions. This is useful for reacting to database changes, network updates, or any asynchronous data source.
+
+```dart
+Future<void> forward<T>(Stream<T> stream, A? Function(T) onData);
+```
+
+**Key points:**
+- `forward` takes a stream and a function to convert each event into an action.
+- Each event from the stream is dispatched as an action.
+- You should `await` the `forward` call to ensure proper subscription and error handling.
+
+**Example:**
+
+```dart
+class M extends Cms<S, A> {
+  final ObjectBoxMemory _boxMemory;
+
+  M(this._boxMemory) : super(const Zero());
+
+  @override
+  Future<S?> kernel(S s, A a) async => switch ((s, a)) {
+    (Zero(:final notes), WatchChanges()) => () async {
+      await forward(
+        _boxMemory
+            .whereType<StickyNote>()
+            .order(ObxStickyNote_.createdAt, OrderFlag.descending)
+            .take(notes.length)
+            .watch(),
+        (notes) => UpdateNotes(notes),
+      );
+    }(),
+    _ => undefined(s, a),
+  };
+}
+```
+
+In this example, whenever the watched stream emits new notes, the `UpdateNotes` action is dispatched, allowing your CMS to react to live data changes. Always use `await` with `forward` to ensure the subscription is properly managed.
+
 
 ## Error Handling
 

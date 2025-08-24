@@ -33,7 +33,6 @@ class NoteEditCms extends Cms<S, A> {
   Future<S?> kernel(
     S s,
     A a,
-    Relay<A> relay,
   ) async =>
       switch ((s, a)) {
         (Zero(), FetchNote(:final id)) => () async {

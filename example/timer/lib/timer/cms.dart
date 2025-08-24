@@ -14,7 +14,7 @@ class M extends Cms<S, A> {
   M(this._ticker) : super(const Zero(_duration));
 
   @override
-  S? kernel(S s, A a, Relay<A> relay) => switch ((s, a)) {
+  S? kernel(S s, A a) => switch ((s, a)) {
     (Zero(:final duration), Start()) => () {
       final subscription = _ticker
           .tick(ticks: _duration)

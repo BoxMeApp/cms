@@ -15,7 +15,6 @@ class M extends Cms<S, A> {
   S kernel(
     S s,
     A a,
-    Relay<A> relay,
   ) =>
       switch ((s, a)) {
         _ => undefined(s, a),
