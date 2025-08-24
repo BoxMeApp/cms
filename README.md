@@ -146,8 +146,63 @@ class M extends Cms<S, A> {
         return const Completed(0);
       }
     }(),
-    _ => throw StateError('algebric error: $s -- $a -->'),
+    _ => undefined(s, a),
   };
+}
+```
+
+## Error Handling
+
+Errors that occur during CMS state transitions are represented by the `CmsError` class. You can handle these errors locally within your CMS class or globally across your app.
+
+### Local Error Handling
+
+Override the `onError` method in your CMS class to catch and handle `CmsError` instances:
+
+```dart
+class M extends Cms<S, A> {
+  M() : super(const Zero());
+
+  @override
+  S kernel(
+    S s,
+    A a,
+    void Function(A) dispatch,
+    Relay<A> relay,
+  ) =>
+      switch ((s, a)) {
+        _ => undefined(s, a),
+      };
+
+  @override
+  void onError(Object error, StackTrace stackTrace) {
+    if (error is CmsError) {
+      print(error);
+      print(stackTrace);
+    }
+    super.onError(error, stackTrace);
+  }
+}
+```
+
+### Global Error Handling
+
+To handle all `CmsError` instances across your app, extend `BlocObserver` and override its `onError` method:
+
+```dart
+class Observer extends BlocObserver {
+  @override
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    if (error is CmsError) {
+      print(error);
+      print(stackTrace);
+    }
+    super.onError(bloc, error, stackTrace);
+  }
+}
+
+void main() async {
+  Bloc.observer = Observer();
 }
 ```
 

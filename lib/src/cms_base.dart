@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 
+import 'error.dart';
+
 typedef Relay<A> = Future<void> Function<T>(
     Stream<T> stream, A? Function(T) onData);
 
@@ -44,5 +46,10 @@ abstract class Cms<S, A> extends Bloc<A, S> {
     _paceGuards.add((event) => event is E);
 
     on<E>(_handler, transformer: transformer);
+  }
+
+  S undefined(S s, A a) {
+    addError(CmsError(s, a));
+    return s;
   }
 }
