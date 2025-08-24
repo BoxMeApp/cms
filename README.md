@@ -1,6 +1,6 @@
 # cms — Controlled Markov Stream
 
-A tiny layer on top of `bloc` that models your app as **States** `S`, **Actions** `A`, and a **deterministic Markov kernel**. It gives you a single place to decide `S × A → S`, while still letting you (1) dispatch follow-up actions and (2) relay external streams into actions.
+A tiny layer on top of `bloc` that models your app as **States** `S`, **Actions** `A`, and a **deterministic Markov kernel**. It gives you a single place to decide `S × A → S`, while still letting you (1) dispatch follow-up actions and (2) relay external streams into actions. (Ui: y = C s + D a)
 
 ![](image/model.excalidraw.svg)
 
@@ -33,6 +33,8 @@ typedef Relay<A> = Future<void> Function<T>(
 * **relay(stream, toAction)**: turn any `Stream<T>` into actions `A` and dispatch them.
 
 ## Quick example
+
+### note edit
 
 ```dart
 @freezed
@@ -81,6 +83,71 @@ class NoteEditCms extends Cms<S, A> {
         (Editing(:final note), Pop()) => Done(note),
         _ => Failure('algebraic error: $s -- $a -->'),
       };
+}
+```
+
+### counter
+
+```dart
+@freezed
+sealed class A with _$A {
+  const factory A.start() = Start;
+  const factory A.pause() = Pause;
+  const factory A.resume() = Resume;
+  const factory A.reset() = Reset;
+  const factory A.tick(int duration) = Tick;
+}
+
+@freezed
+sealed class S with _$S {
+  const factory S.zero(int duration) = Zero;
+  const factory S.paused(int duration, StreamSubscription<int> subscription) =
+      Paused;
+  const factory S.running(int duration, StreamSubscription<int> subscription) =
+      Running;
+  const factory S.completed(int duration) = Completed;
+}
+
+
+class M extends Cms<S, A> {
+  final Ticker _ticker;
+  M(this._ticker) : super(const Zero(_duration));
+
+  @override
+  S? kernel(S s, A a, void Function(A p1) dispatch, Relay<A> relay) => switch ((
+    s,
+    a,
+  )) {
+    (Zero(:final duration), Start()) => () {
+      final subscription = _ticker
+          .tick(ticks: _duration)
+          .listen((duration) => dispatch(Tick(duration)));
+      return Running(duration, subscription);
+    }(),
+    (Running(:final duration, :final subscription), Pause()) => () {
+      subscription.pause();
+      return Paused(duration, subscription);
+    }(),
+    (Paused(:final duration, :final subscription), Resume()) => () {
+      subscription.resume();
+      return Running(duration, subscription);
+    }(),
+    (Paused(:final subscription) || Running(:final subscription), Reset()) =>
+      () {
+        subscription.cancel();
+        return const Zero(_duration);
+      }(),
+    (Completed(), Reset()) => const Zero(_duration),
+    (Running(:final subscription), Tick(:final duration)) => () {
+      if (duration > 0) {
+        return Running(duration, subscription);
+      } else {
+        subscription.cancel();
+        return const Completed(0);
+      }
+    }(),
+    _ => throw StateError('algebric error: $s -- $a -->'),
+  };
 }
 ```
 
