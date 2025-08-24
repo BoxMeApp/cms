@@ -67,7 +67,7 @@ class NoteEditCms extends Cms<S, A> {
             note.copyWith(content: content),
           ),
         (Editing(:final note), Pop()) => Done(note),
-        _ => Failure('algebraic error: $s -- $a -->'),
+        _ => undefined(s, a),
       };
 }
 ```
