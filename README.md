@@ -15,7 +15,6 @@ In code, you implement:
 FutureOr<S?> kernel(
   S state,
   A action,
-  void Function(A) dispatch, // recursive dispatch
   Relay<A> relay,            // external stream -> action
 );
 ```
@@ -62,7 +61,6 @@ class NoteEditCms extends Cms<S, A> {
   Future<S?> kernel(
     S s,
     A a,
-    void Function(A) dispatch,
     Relay<A> relay,
   ) async =>
       switch ((s, a)) {
@@ -114,14 +112,14 @@ class M extends Cms<S, A> {
   M(this._ticker) : super(const Zero(_duration));
 
   @override
-  S? kernel(S s, A a, void Function(A p1) dispatch, Relay<A> relay) => switch ((
+  S? kernel(S s, A a, Relay<A> relay) => switch ((
     s,
     a,
   )) {
     (Zero(:final duration), Start()) => () {
       final subscription = _ticker
           .tick(ticks: _duration)
-          .listen((duration) => dispatch(Tick(duration)));
+          .listen((duration) => add(Tick(duration)));
       return Running(duration, subscription);
     }(),
     (Running(:final duration, :final subscription), Pause()) => () {
@@ -167,7 +165,6 @@ class M extends Cms<S, A> {
   S kernel(
     S s,
     A a,
-    void Function(A) dispatch,
     Relay<A> relay,
   ) =>
       switch ((s, a)) {

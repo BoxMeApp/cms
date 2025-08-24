@@ -33,7 +33,6 @@ class NoteEditCms extends Cms<S, A> {
   Future<S?> kernel(
     S s,
     A a,
-    void Function(A) dispatch,
     Relay<A> relay,
   ) async =>
       switch ((s, a)) {
@@ -52,6 +51,6 @@ class NoteEditCms extends Cms<S, A> {
             note.copyWith(content: content),
           ),
         (Editing(:final note), Pop()) => Done(note),
-        _ => Failure('algebraic error: $s -- $a -->'),
+        _ => throw CmsError(s, a),
       };
 }

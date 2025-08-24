@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cms/cms.dart';
 import 'package:timer/ticker.dart';
 
@@ -16,14 +14,11 @@ class M extends Cms<S, A> {
   M(this._ticker) : super(const Zero(_duration));
 
   @override
-  S? kernel(S s, A a, void Function(A p1) dispatch, Relay<A> relay) => switch ((
-    s,
-    a,
-  )) {
+  S? kernel(S s, A a, Relay<A> relay) => switch ((s, a)) {
     (Zero(:final duration), Start()) => () {
       final subscription = _ticker
           .tick(ticks: _duration)
-          .listen((duration) => dispatch(Tick(duration)));
+          .listen((duration) => add(Tick(duration)));
       return Running(duration, subscription);
     }(),
     (Running(:final duration, :final subscription), Pause()) => () {

@@ -14,13 +14,12 @@ abstract class Cms<S, A> extends Bloc<A, S> {
   }
 
   /// markov kernel
-  FutureOr<S?> kernel(S s, A a, void Function(A) dispatch, Relay<A> relay);
+  FutureOr<S?> kernel(S s, A a, Relay<A> relay);
 
   Future<void> _handler(A event, Emitter<S> emit) async {
     final s = await kernel(
       state,
       event,
-      add,
       <T>(stream, onData) => emit.onEach<T>(stream, onData: (data) {
         final a = onData(data);
         if (a != null) {
