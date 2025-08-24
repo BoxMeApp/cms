@@ -13,3 +13,7 @@
 ## 1.3.0
 
 - rename relay to forward
+
+## 1.4.0
+
+- downgrade meta

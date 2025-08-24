@@ -1,6 +1,6 @@
 name: cms
 description: A tiny layer on top of `bloc` that models your app as **States** `S`, **Actions** `A`, and a **deterministic Markov kernel**.
-version: 1.3.0
+version: 1.4.0
 repository: https://github.com/BoxMeApp/cms
 
 environment:
@@ -8,7 +8,7 @@ environment:
 
 dependencies:
   bloc: ^9.0.0
-  meta: ^1.17.0
+  meta: ^1.3.0
 
 dev_dependencies:
   bloc_test: ^10.0.0
