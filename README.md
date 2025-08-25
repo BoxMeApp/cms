@@ -173,6 +173,26 @@ class M extends Cms<S, A> {
     _ => undefined(s, a),
   };
 }
+
+// or use then
+class M extends Cms<S, A> {
+  final ObjectBoxMemory _boxMemory;
+
+  M(this._boxMemory) : super(const Zero());
+
+  @override
+  Future<S?> kernel(S s, A a) async => switch ((s, a)) {
+    (Zero(:final notes) || Loaded(:final notes), WatchChanges()) => forward(
+      _boxMemory
+          .whereType<StickyNote>()
+          .order(ObxStickyNote_.createdAt, OrderFlag.descending)
+          .take(notes.length)
+          .watch(),
+      (notes) => UpdateNotes(notes),
+    ).then((_) => null),
+    _ => undefined(s, a),
+  };
+}
 ```
 
 In this example, whenever the watched stream emits new notes, the `UpdateNotes` action is dispatched, allowing your CMS to react to live data changes. Always use `await` with `forward` to ensure the subscription is properly managed.
