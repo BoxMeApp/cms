@@ -189,7 +189,7 @@ class M extends Cms<S, A> {
           .take(notes.length)
           .watch(),
       (notes) => UpdateNotes(notes),
-    ).then((_) => null),
+    ).then(id), // id equals (_) => null
     _ => undefined(s, a),
   };
 }
@@ -267,6 +267,10 @@ Example:
 pace<SearchChanged>(restartable()); // new search cancels the old one
 pace<Submit>(droppable());          // ignore double taps while submitting
 ```
+
+## id
+
+map s => s, don't change s currently
 
 ## Why CMS?
 

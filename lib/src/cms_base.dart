@@ -59,4 +59,6 @@ abstract class Cms<S, A> extends Bloc<A, S> {
     addError(CmsError(s, a));
     return s;
   }
+
+  Null id<T>(T t) => null;
 }

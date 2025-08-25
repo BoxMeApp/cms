@@ -21,3 +21,7 @@
 ## 1.4.1
 
 - fix `forward`(must await)
+
+## 1.4.2
+
+- add `id` (s => s)
