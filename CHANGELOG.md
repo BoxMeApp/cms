@@ -17,3 +17,7 @@
 ## 1.4.0
 
 - downgrade meta
+
+## 1.4.1
+
+- fix `forward`(must await)

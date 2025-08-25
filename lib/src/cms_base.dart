@@ -19,9 +19,8 @@ abstract class Cms<S, A> extends Bloc<A, S> {
 
   late _Forward<A> _forward;
   @mustCallSuper
-  Future<void> forward<T>(Stream<T> stream, A? Function(T) onData) async {
-    _forward(stream, onData);
-  }
+  Future<void> forward<T>(Stream<T> stream, A? Function(T) onData) =>
+      _forward(stream, onData);
 
   Future<void> _handler(A event, Emitter<S> emit) async {
     _forward = <T>(stream, onData) => emit.onEach<T>(stream, onData: (data) {
