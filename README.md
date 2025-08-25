@@ -272,6 +272,10 @@ pace<Submit>(droppable());          // ignore double taps while submitting
 
 map s => s, don't change s currently
 
+## code generator
+
+- vscode extension: [cms](https://marketplace.visualstudio.com/items?itemName=dzylikecode.cms-generator)
+
 ## Why CMS?
 
 * **Single place to reason about behavior**: a deterministic kernel `S × A → S`.
