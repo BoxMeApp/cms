@@ -270,7 +270,27 @@ pace<Submit>(droppable());          // ignore double taps while submitting
 
 ## id
 
-map s => s, don't change s currently
+map s => s, don't change s currently. It's convenient to avoid nesting.
+
+```dart
+class M extends Cms<S, A> {
+  M() : super(const Zero());
+  @override
+  Future<S?> kernel(S s, A a) async => switch ((s, a)) {
+    (Zero(), Init()) => () async {
+      final appSettings = await AppSettings.create();
+      final permissionHandler = PermissionHandler();
+      return Loaded(
+        appSettings: appSettings,
+        permissionHandler: permissionHandler,
+      );
+    }().then(id, onError: addError),
+    _ => undefined(s, a),
+  };
+}
+```
+
+In this case, onError replaces the try-catch block.
 
 ## code generator
 
