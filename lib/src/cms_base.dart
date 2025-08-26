@@ -60,5 +60,5 @@ abstract class Cms<S, A> extends Bloc<A, S> {
     return s;
   }
 
-  Null id<T>(T t) => null;
+  S? id<T>(T t) => t is S ? t : null;
 }

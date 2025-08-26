@@ -25,3 +25,7 @@
 ## 1.4.2
 
 - add `id` (s => s)
+
+## 1.4.3
+
+- fix `id`: if e is S, then return S
