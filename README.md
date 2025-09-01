@@ -1,6 +1,16 @@
 # cms — Controlled Markov Stream
 
-A tiny layer on top of `bloc` that models your app as **States** `S`, **Actions** `A`, and a **deterministic Markov kernel**. It gives you a single place to decide `S × A → Δ S`, while still letting you (1) dispatch follow-up actions and (2) relay external streams into actions. (Ui: y = C s + D a)
+A tiny layer on top of `bloc` that models your app as **States** `S`, **Actions** `A`, and a **deterministic Markov kernel**.
+
+```math
+\begin{cases}
+\dot s = f(s, a) \\
+y = A \cdot s
+\end{cases}
+```
+
+- $`\dot s`$ or $`\nabla s`$ (gradient) or $`\delta s`$ describes how the state evolves over time.
+- UI is just y, which is a function of the current state.
 
 ![](image/model.excalidraw.svg)
 
