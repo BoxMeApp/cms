@@ -50,6 +50,6 @@ class NoteEditCms extends Cms<S, A> {
             note.copyWith(content: content),
           ),
         (Editing(:final note), Pop()) => Done(note),
-        _ => throw CmsError(s, a),
+        _ => undefined(s, a),
       };
 }
