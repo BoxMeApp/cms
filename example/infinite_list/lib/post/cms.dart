@@ -26,20 +26,23 @@ class M extends Cms<S, A> {
     pace<Fetch>(throttleDroppable(throttleDuration));
   }
 
+  // dart format off
   @override
   Future<S?> kernel(S s, A a) async => switch ((s, a)) {
-    (Zero(:final posts) || Loaded(:final posts), Fetch()) => () async {
-      try {
-        final newPosts = await _repository.fetch(posts.length, _postLimit);
+    (Zero(:final posts) 
+    || Loaded(:final posts), Fetch()) =>  () async {
+                                            try {
+                                              final newPosts = await _repository.fetch(posts.length, _postLimit);
 
-        if (newPosts.isEmpty) return Done(posts);
+                                              if (newPosts.isEmpty) return Done(posts);
 
-        return Loaded([...posts, ...newPosts]);
-      } catch (_) {
-        return Failed('Error fetching posts');
-      }
-    }(),
-    (Done(), Fetch()) => null,
-    _ => undefined(s, a),
+                                              return Loaded([...posts, ...newPosts]);
+                                            } catch (_) {
+                                              return Failed('Error fetching posts');
+                                            }
+                                          }(),
+    (Done(), Fetch())                 =>  null,
+    _                                 =>  undefined(s, a),
   };
+  // dart format on
 }

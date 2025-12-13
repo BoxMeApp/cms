@@ -37,18 +37,17 @@ class NoteEditCms extends Cms<S, A> {
 
   // dart format off
   @override
-  Future<S?> kernel(S s, A a,) async =>
-    switch ((s, a)) {
-      (Zero(), FetchNote(:final id))                     => () async {
-                                                              final note = id != null
-                                                                          ? await _memory.find<StickyNote>(id) 
-                                                                          : _defaultNote;
-                                                              if (note == null) return Failure('Note not found');
-                                                              return Editing(note);
-                                                            }(),
-      (Editing(:final note), NewContent(:final content)) => Editing(note.copyWith(content: content),),
-      (Editing(:final note), Pop())                      => Done(note),
-      _                                                  => undefined(s, a),
-    };
+  Future<S?> kernel(S s, A a,) async => switch ((s, a)) {
+    (Zero()              , FetchNote(:final id))       => () async {
+                                                            final note = id != null
+                                                                        ? await _memory.find<StickyNote>(id) 
+                                                                        : _defaultNote;
+                                                            if (note == null) return Failure('Note not found');
+                                                            return Editing(note);
+                                                          }(),
+    (Editing(:final note), NewContent(:final content)) => Editing(note.copyWith(content: content),),
+    (Editing(:final note), Pop())                      => Done(note),
+    _                                                  => undefined(s, a),
+  };                     
   // dart format on
 }

@@ -29,3 +29,7 @@
 ## 1.4.3
 
 - fix `id`: if e is S, then return S
+
+## 1.4.4
+
+- docs

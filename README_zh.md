@@ -1,8 +1,8 @@
 # cms
 
-While learning `bloc`, I found it remarkably similar to control equations, which taught me to think mathematically. I further encapsulated it to make it closer to mathematical form.
+个人在学习`bloc`的时候，觉得和控制方程非常像，认为其是教导我用数学去思考。于是进步将其封装，使其接近数学形式。
 
-From a dynamical systems perspective, viewing an object (such as an app or menu) looks like:
+从动力学的角度观看一个对象（例如app，菜单）如下：
 
 ```math
 \begin{cases}
@@ -11,9 +11,9 @@ y = A \cdot s
 \end{cases}
 ```
 
-`bloc` represents f, and $`y = A \cdot s`$ is the observation equation, typically the UI, corresponding to `BlocBuilder` etc. However, here we focus more on the state equation.
+`bloc`即是 f，$`y = A \cdot s`$是观测方程，一般是UI，对应`BlocBuilder`等。不过这样里更关注状态方程。
 
-Further examining the state equation, transforming it into discrete form:
+进一步观察状态方程，变形为离散的形式：
 
 ```math
 \begin{aligned}
@@ -23,27 +23,28 @@ Further examining the state equation, transforming it into discrete form:
 \end{aligned}
 ```
 
-Where s is the current state, $`\Delta s`$ is the state change, often observed by people and called an action or event. s' is the next state. Therefore, we maintain this form when writing code:
+其中 s 是当前状态， $`\Delta s`$是状态的变化量，一般被人观察到而被称为动作或者事件。s' 是下一个状态。因而保持这样的形式写代码：
 
 ```math
 (s, a) \to s'
 ```
 
-Viewing the code from a distance, it satisfies this form:
+远距离观看代码，满足这样的形式：
 
 ![](image/collapse.png)
 
-If you need to examine the internal details carefully, you can expand it:
+如果需要仔细检查内部细节，可以展开来看：
 
 ![](image/expand.png)
 
-Why not define a function instead of using anonymous functions? Because S + A serves as the annotation, and coming up with another name is quite laborious.
+
+为什么不定义函数呢，而是用匿名函数呢？因为 S + A 就是注解，再去取一个名字比较费力。
 
 ## example
 
-Using the [flutter-timer](https://bloclibrary.dev/tutorials/flutter-timer/) from bloc as an example:
+以 bloc 中的 [flutter-timer](https://bloclibrary.dev/tutorials/flutter-timer/) 为例：
 
-Thinking with mathematical modeling, first we have the state:
+用数学建模的思维去思考，首先是状态
 
 ```haskell
 data S = Zero Int
@@ -52,7 +53,7 @@ data S = Zero Int
        | Completed Int
 ```
 
-Then the actions that users can trigger:
+然后是用户能触发的动作
 
 ```haskell
 data A = Start
@@ -61,9 +62,10 @@ data A = Start
        | Reset
 ```
 
-> Tick is an internal event discovered through further consideration. The model doesn't need to be complete at once; it can be iterative.
+> Tick 是后续进一步思考得到的内部事件，不一定要一次性建模完整，可以迭代。
 
-Translating into Dart code:
+翻译成 Dart 代码：
+
 
 ```dart
 
@@ -128,9 +130,9 @@ class M extends Cms<S, A> {
 }
 ```
 
-## Forwarding
+## 转发
 
-In some scenarios, you need to monitor an event stream from an external object, completely dependent on the outside. In this case, you can use forwarding to forward this external event as an internal event for processing.
+有的情景下需要监视外部对象的某个时间流，完全依赖外部，此时可以转发，将这个外部的事件转发为内部事件来处理。
 
 ```dart
 class M extends Cms<S, A> {
@@ -153,9 +155,9 @@ class M extends Cms<S, A> {
 }
 ```
 
-## Response Rate Control
+## 响应速率
 
-Actions or events are time-varying and need to be viewed from a temporal perspective, i.e., as a stream. In some scenarios, users may frequently trigger certain events, such as when scrolling to load more data, users might quickly swipe the list triggering multiple load events. To prevent this from causing application performance issues, you can use throttling to limit the event processing frequency.
+动作或者说事件是时变的，需要从时间的角度去看，即是一个流。某些场景下，用户可能会频繁触发某个事件，例如滚动加载更多数据时，用户可能会快速滑动列表触发多次加载事件。为了防止这种情况导致应用性能问题，可以使用响应速率控制（throttling）来限制事件的处理频率。
 
 ```dart
 class M extends Cms<S, A> {
@@ -165,6 +167,6 @@ class M extends Cms<S, A> {
 }
 ```
 
-## Helper Tools
+## 辅助工具
 
 - vscode extension: [cms](https://marketplace.visualstudio.com/items?itemName=dzylikecode.cms-generator)
