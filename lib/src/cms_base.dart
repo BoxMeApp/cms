@@ -22,7 +22,10 @@ abstract class Cms<S, A> extends Bloc<A, S> {
   Future<void> forward<T>(Stream<T> stream, A? Function(T) onData) =>
       _forward(stream, onData);
 
+  late Emitter<S> to;
+
   Future<void> _handler(A event, Emitter<S> emit) async {
+    to = emit;
     _forward = <T>(stream, onData) => emit.onEach<T>(
       stream,
       onData: (data) {
