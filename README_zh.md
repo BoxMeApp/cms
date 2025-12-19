@@ -130,6 +130,44 @@ class M extends Cms<S, A> {
 }
 ```
 
+## 函数化
+
+bloc 是支持一个事件产生多个状态的，cms 故意强约束为一个事件只能产生一个状态，并且用?表示无状态变化。如果有多个状态变化，则分解为多个事件依次触发，并用 add 来连接先后顺序。
+
+比如，对于 fetch，它的变化是 loading -> loaded，可以拆解为如下
+
+```dart
+sealed class A with _$A {
+  const factory A.fetch()           = _Fetch;   // -> loading
+  const factory A._fetch$(int page) = _Fetch$;  // -> loaded
+}
+```
+
+`.fetch()` 是用户看到的，而 `._fetch$()` 是内部事件，用户不可见。
+
+```dart
+switch ((s, a)) {
+  Fetch   a =>  () {
+                  add(_Fetch$(a.url));  // 后续执行
+                  return s.copyWith(loading: true); // -> loading
+                }(),
+  _Fetch$ a =>  () async {
+                  final data = await fetchData(a.url);
+                  return s.copyWith(loading: false, data: data); // -> loaded
+                }(),
+}
+```
+
+验证了两种写法是等价的：
+
+```dart
+add(_Fetch$(a.url));  
+return s.copyWith(loading: true);
+// equals
+emit(s.copyWith(loading: true));
+add(_Fetch$(a.url));
+```
+
 ## 转发
 
 有的情景下需要监视外部对象的某个时间流，完全依赖外部，此时可以转发，将这个外部的事件转发为内部事件来处理。
@@ -166,6 +204,8 @@ class M extends Cms<S, A> {
   }
 }
 ```
+
+
 
 ## 辅助工具
 
