@@ -21,15 +21,6 @@ void main() {
 
     blocTest(
       "case 2",
-      build: () => M$(),
-      act: (cms) => cms
-        ..add(const Fetch())
-        ..add(const Fetch()),
-      expect: () => [S(0, 1), S(1, 1), S(1, 2), S(2, 2)],
-    );
-
-    blocTest(
-      "case 2'",
       build: () => M(),
       act: (cms) => cms
         ..add(const Fetch())
@@ -105,20 +96,6 @@ class M extends Cms<S, E> {
       return S(s.data, s.loading + 1);
     }(),
     _RealFetch _ => S(s.data + 1, s.loading),
-  };
-}
-
-class M$ extends Cms<S, E> {
-  M$() : super(S(0));
-
-  @override
-  FutureOr<S?> kernel(S s, E a) => switch (a) {
-    Fetch _ => () {
-      final loading = s.loading + 1;
-      to(S(s.data, loading));
-      return S(s.data + 1, loading);
-    }(),
-    _ => undefined(s, a),
   };
 }
 

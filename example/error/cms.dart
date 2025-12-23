@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cms/cms.dart';
 
 import 's.dart';
@@ -12,13 +10,9 @@ class M extends Cms<S, A> {
   M() : super(const Zero());
 
   @override
-  S kernel(
-    S s,
-    A a,
-  ) =>
-      switch ((s, a)) {
-        _ => undefined(s, a),
-      };
+  S kernel(S s, A a) => switch ((s, a)) {
+    _ => undefined(s, a),
+  };
 
   @override
   void onError(Object error, StackTrace stackTrace) {
