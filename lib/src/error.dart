@@ -5,6 +5,5 @@ class CmsError<S, A> extends Error {
   CmsError(this.s, this.a);
 
   @override
-  String toString() =>
-      'cms error: ${s.runtimeType} -- ${a.runtimeType} --> ???';
+  String toString() => '${s.runtimeType} -- ${a.runtimeType} --> ???';
 }
