@@ -14,7 +14,7 @@ class PostPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => M(Repository())..add(Fetch()),
+      create: (context) => M(Repository())..add(const .fetch()),
       child: PostView(),
     );
   }
@@ -55,7 +55,7 @@ class _PostsListState extends State<PostsList> {
             posts.isEmpty
                 ? const Center(child: Text('no posts'))
                 : ListView.builder(
-                    itemBuilder: (BuildContext context, int index) {
+                    itemBuilder: (context, index) {
                       return index >= posts.length
                           ? const BottomLoader()
                           : PostListItem(post: posts[index]);
@@ -77,7 +77,7 @@ class _PostsListState extends State<PostsList> {
   }
 
   void _onScroll() {
-    if (_isBottom) context.read<M>().add(Fetch());
+    if (_isBottom) context.read<M>().add(const .fetch());
   }
 
   bool get _isBottom {

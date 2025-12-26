@@ -21,7 +21,7 @@ sealed class S with _$S {
 
 @freezed
 sealed class A with _$A {
-  const factory A.fetch() = Fetch;
+  const factory A.fetch() = _Fetch;
 }
 
 EventTransformer<E> throttleDroppable<E>(Duration duration) {
@@ -34,16 +34,20 @@ class M extends Cms<S, A> {
   final Repository _repository;
 
   M(this._repository) : super(const Zero()) {
-    pace<Fetch>(throttleDroppable(throttleDuration));
+    pace<_Fetch>(throttleDroppable(throttleDuration));
   }
 
   // dart format off
   @override
   Future<S?> kernel(S s, A a) async => switch ((s, a)) {
     (Zero(:final posts) 
-    || Loaded(:final posts), Fetch()) =>  () async {
+    || Loaded(:final posts), _Fetch()) =>  () async {
                                             try {
-                                              final newPosts = await _repository.fetch(posts.length, _postLimit);
+                                              final newPosts = await _repository
+                                                  .fetch(
+                                                    posts.length, 
+                                                    _postLimit
+                                                  );
 
                                               if (newPosts.isEmpty) return Done(posts);
 
@@ -52,8 +56,8 @@ class M extends Cms<S, A> {
                                               return Failed('Error fetching posts');
                                             }
                                           }(),
-    (Done(), Fetch())                 =>  null,
-    _                                 =>  undefined(s, a),
+    (Done()                , _Fetch()) =>  null,
+    _                                  =>  undefined(s, a),
   };
   // dart format on
 }

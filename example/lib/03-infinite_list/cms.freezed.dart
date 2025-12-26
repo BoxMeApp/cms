@@ -358,8 +358,8 @@ $ACopyWith(A _, $Res Function(A) __);
 /// @nodoc
 
 
-class Fetch implements A {
-  const Fetch();
+class _Fetch implements A {
+  const _Fetch();
   
 
 
@@ -369,7 +369,7 @@ class Fetch implements A {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Fetch);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Fetch);
 }
 
 
