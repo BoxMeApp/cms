@@ -31,9 +31,9 @@ abstract class Cms<S, A> extends Bloc<A, S> {
         add(a);
       },
     );
-    final s = await kernel(state, event);
-    if (s == null) return;
-    emit(s);
+    final newState = await kernel(state, event);
+    if (newState == null) return;
+    emit(newState);
   }
 
   Future<void> _defaultHandler(A event, Emitter<S> emit) async {

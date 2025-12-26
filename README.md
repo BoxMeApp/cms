@@ -1,5 +1,7 @@
 # cms
 
+[English](README.md) | [中文](README_zh.md)
+
 While learning `bloc`, I found it remarkably similar to control equations, which taught me to think mathematically. I further encapsulated it to make it closer to mathematical form.
 
 From a dynamical systems perspective, viewing an object (such as an app or menu) looks like:
