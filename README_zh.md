@@ -132,7 +132,9 @@ class M extends Cms<S, A> {
 }
 ```
 
-## 函数化
+## 约定
+
+### 函数化
 
 bloc 是支持一个事件产生多个状态的，cms 故意强约束为一个事件只能产生一个状态，并且用?表示无状态变化。如果有多个状态变化，则分解为多个事件依次触发，并用 add 来连接先后顺序。
 
@@ -169,6 +171,28 @@ return s.copyWith(loading: true);
 emit(s.copyWith(loading: true));
 add(_Fetch$(a.url));
 ```
+
+### state/event 命名
+
+因为 state 需要被外部观察到，所以 state 一般是公开的，而事件都是是私有的。然后通过工厂函数来暴露给外部使用。
+
+```dart
+@freezed
+sealed class S with _$S {
+  const factory S.unknown() = Unknown;
+  const factory S.unauthenticated() = Unauthenticated;
+  const factory S.authenticated(User user) = Authenticated;
+}
+
+@freezed
+sealed class A with _$A {
+  const factory A.watch() = _Watch;
+  const factory A.logout() = _Logout;
+  const factory A._$1() = _RepoAuth;
+  const factory A._$2() = _RepoUnauth;
+}
+```
+
 
 ## 转发
 

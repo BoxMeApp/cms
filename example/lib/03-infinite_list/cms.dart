@@ -41,21 +41,16 @@ class M extends Cms<S, A> {
   @override
   Future<S?> kernel(S s, A a) async => switch ((s, a)) {
     (Zero(:final posts) 
-    || Loaded(:final posts), _Fetch()) =>  () async {
-                                            try {
-                                              final newPosts = await _repository
-                                                  .fetch(
-                                                    posts.length, 
-                                                    _postLimit
-                                                  );
+    || Loaded(:final posts), _Fetch()) => () async {
+                                            final newPosts = await _repository
+                                              .fetch(posts.length, _postLimit);
 
-                                              if (newPosts.isEmpty) return Done(posts);
+                                            if (newPosts.isEmpty) return Done(posts);
 
-                                              return Loaded([...posts, ...newPosts]);
-                                            } catch (_) {
-                                              return Failed('Error fetching posts');
-                                            }
-                                          }(),
+                                            return Loaded([...posts, ...newPosts]);
+                                          }().catchError(
+                                            (_) => const Failed('Error fetching posts')
+                                          ),
     (Done()                , _Fetch()) =>  null,
     _                                  =>  undefined(s, a),
   };
