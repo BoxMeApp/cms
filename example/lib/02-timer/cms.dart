@@ -32,37 +32,38 @@ class M extends Cms<S, A> {
   // dart format off
   @override
   S? kernel(S s, A a) => switch ((s, a)) {
-    (Zero s                 , _Start  _) => () {
-                                              final clock = _ticker
-                                                  .tick(ticks: _duration)
-                                                  .listen((t) => add(_Tick(t)));
-                                              return Running(s.duration, clock);
-                                            }(),
-    (Running s              , _Pause  _) => () {
-                                              s.clock.pause();
-                                              return Paused(s.duration, s.clock);
-                                            }(),
-    (Paused s               , _Resume _) => () {
-                                              s.clock.resume();
-                                              return Running(s.duration, s.clock);
-                                            }(),
-    (Paused(:final clock) 
-    || Running(:final clock), _Reset  _) => () {
-                                              clock.cancel();
-                                              return const Zero(_duration);
-                                            }(),
-    (Completed()            , _Reset  _) => const Zero(_duration),
-    (Running s              , _Tick   a) => () {
-                                              final duration = a.duration;
-                                              final clock = s.clock;
-                                              if (duration > 0) {
-                                                return Running(duration, clock);
-                                              } else {
-                                                clock.cancel();
-                                                return const Completed(0);
-                                              }
-                                            }(),
-    _                                    => undefined(s, a),
+    (Zero      s, _Start  a) => () {
+                                  final clock = _ticker
+                                      .tick(ticks: _duration)
+                                      .listen((t) => add(_Tick(t)));
+                                  return Running(s.duration, clock);
+                                }(),
+    (Running   s, _Pause  a) => () {
+                                  s.clock.pause();
+                                  return Paused(s.duration, s.clock);
+                                }(),
+    (Paused    s, _Resume a) => () {
+                                  s.clock.resume();
+                                  return Running(s.duration, s.clock);
+                                }(),
+    (Paused    s, _Reset  a) => () {
+                                  final clock = s.clock;      
+                                  clock.cancel();
+                                  return const Zero(_duration);
+                                }(),
+    (Running   s, _Reset  a) => kernel(Paused(s.duration, s.clock), a),
+    (Completed s, _Reset  a) => const Zero(_duration),
+    (Running   s, _Tick   a) => () {
+                                  final duration = a.duration;
+                                  final clock = s.clock;
+                                  if (duration > 0) {
+                                    return Running(duration, clock);
+                                  } else {
+                                    clock.cancel();
+                                    return const Completed(0);
+                                  }
+                                }(),
+    _                        => undefined(s, a),
   };
   // dart format on
 }

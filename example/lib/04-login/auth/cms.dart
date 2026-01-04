@@ -28,28 +28,28 @@ class M extends Cms<S, A> {
   // dart format off
   @override
   Future<S?> kernel(S s, A a) async => switch ((s, a)) {
-    (Unknown _ 
-    || Unauthenticated _, _Watch _     ) => forward(
-                                              _authRepo.status,
-                                              (status) => switch (status) {
-                                                .unauthenticated => const _RepoUnauth(),
-                                                .authenticated => const _RepoAuth(),
-                                              },
-                                            ).then((_) => null),
-    (Authenticated _    , _Logout _    ) => () {
-                                              _authRepo.logOut();
-                                              return null;
-                                            }(),
-    (Unknown _ 
-    || Unauthenticated _, _RepoAuth _  ) => () async {
-                                              final user = await _userRepo.getUser();
-                                              if (user == null) {
-                                                return const Unauthenticated();
-                                              }
-                                              return Authenticated(user);
-                                            }().catchError((_) => const Unauthenticated()),
-    (_                  , _RepoUnauth _) => const Unauthenticated(),
-    _                                    => undefined(s, a),
+    (Unknown         s, _Watch      a) => kernel(const Unauthenticated(), a),
+    (Unauthenticated s, _Watch      a) => forward(
+                                            _authRepo.status,
+                                            (status) => switch (status) {
+                                              .unauthenticated => const _RepoUnauth(),
+                                              .authenticated => const _RepoAuth(),
+                                            },
+                                          ).then((_) => null),
+    (Authenticated   s, _Logout     a) => () {
+                                            _authRepo.logOut();
+                                            return null;
+                                          }(),
+    (Unknown         s, _RepoAuth   a) => kernel(const Unauthenticated(), a),
+    (Unauthenticated s, _RepoAuth   a) => () async {
+                                            final user = await _userRepo.getUser();
+                                            if (user == null) {
+                                              return const Unauthenticated();
+                                            }
+                                            return Authenticated(user);
+                                          }().catchError((_) => const Unauthenticated()),
+    (                _, _RepoUnauth a) => const Unauthenticated(),
+  _                                    => undefined(s, a),
   };
   // dart format on
 }

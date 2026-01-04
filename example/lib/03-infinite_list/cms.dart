@@ -13,7 +13,7 @@ const throttleDuration = Duration(milliseconds: 100);
 
 @freezed
 sealed class S with _$S {
-  const factory S.zero([@Default([]) List<Post> posts]) = Zero;
+  const factory S.zero() = Zero;
   const factory S.loaded(List<Post> posts) = Loaded;
   const factory S.done(List<Post> posts) = Done;
   const factory S.failed(String message) = Failed;
@@ -40,19 +40,21 @@ class M extends Cms<S, A> {
   // dart format off
   @override
   Future<S?> kernel(S s, A a) async => switch ((s, a)) {
-    (Zero(:final posts) 
-    || Loaded(:final posts), _Fetch()) => () async {
-                                            final newPosts = await _repository
-                                              .fetch(posts.length, _postLimit);
+    (Zero   s, _Fetch a) => kernel(Loaded([]), a),
+    (Loaded s, _Fetch a) => () async {
+                              final posts = s.posts;
+                              final newPosts = await _repository.fetch(
+                                                posts.length, _postLimit
+                                              );
 
-                                            if (newPosts.isEmpty) return Done(posts);
+                              if (newPosts.isEmpty) return Done(posts);
 
-                                            return Loaded([...posts, ...newPosts]);
-                                          }().catchError(
-                                            (_) => const Failed('Error fetching posts')
-                                          ),
-    (Done()                , _Fetch()) =>  null,
-    _                                  =>  undefined(s, a),
+                              return Loaded([...posts, ...newPosts]);
+                            }().catchError(
+                              (_) => const Failed('Error fetching posts')
+                            ),
+    (Done   s, _Fetch a) =>  null,
+    _                    =>  undefined(s, a),
   };
   // dart format on
 }

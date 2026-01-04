@@ -98,35 +98,38 @@ class M extends Cms<S, A> {
   // dart format off
   @override
   S? kernel(S s, A a) => switch ((s, a)) {
-    (Zero(:final duration)                        , Start())               => () {
-                                                                                final subscription = _ticker
-                                                                                    .tick(ticks: _duration)
-                                                                                    .listen((duration) => add(Tick(duration)));
-                                                                                return Running(duration, subscription);
-                                                                              }(),
-    (Running(:final duration, :final subscription), Pause())               => () {
-                                                                                subscription.pause();
-                                                                                return Paused(duration, subscription);
-                                                                              }(),
-    (Paused(:final duration, :final subscription) , Resume())              => () {
-                                                                                subscription.resume();
-                                                                                return Running(duration, subscription);
-                                                                              }(),
-    (Paused(:final subscription) 
-    || Running(:final subscription)               , Reset())               => () {
-                                                                              subscription.cancel();
-                                                                                return const Zero(_duration);
-                                                                              }(),
-    (Completed()                                  , Reset())               => const Zero(_duration),
-    (Running(:final subscription)                 , Tick(:final duration)) => () {
-                                                                                if (duration > 0) {
-                                                                                  return Running(duration, subscription);
-                                                                                } else {
-                                                                                  subscription.cancel();
-                                                                                  return const Completed(0);
-                                                                                }
-                                                                              }(),
-    _                                                                      => throw StateError('algebric error: $s -- $a -->'),
+    (Zero      s, _Start  a) => () {
+                                  final clock = _ticker
+                                      .tick(ticks: _duration)
+                                      .listen((t) => add(_Tick(t)));
+                                  return Running(s.duration, clock);
+                                }(),
+    (Running   s, _Pause  a) => () {
+                                  s.clock.pause();
+                                  return Paused(s.duration, s.clock);
+                                }(),
+    (Paused    s, _Resume a) => () {
+                                  s.clock.resume();
+                                  return Running(s.duration, s.clock);
+                                }(),
+    (Paused    s, _Reset  a) => () {
+                                  final clock = s.clock;      
+                                  clock.cancel();
+                                  return const Zero(_duration);
+                                }(),
+    (Running   s, _Reset  a) => kernel(Paused(s.duration, s.clock), a),
+    (Completed s, _Reset  a) => const Zero(_duration),
+    (Running   s, _Tick   a) => () {
+                                  final duration = a.duration;
+                                  final clock = s.clock;
+                                  if (duration > 0) {
+                                    return Running(duration, clock);
+                                  } else {
+                                    clock.cancel();
+                                    return const Completed(0);
+                                  }
+                                }(),
+    _                        => undefined(s, a),
   };
   // dart format on
 }
@@ -192,6 +195,10 @@ sealed class A with _$A {
   const factory A._$2() = _RepoUnauth;
 }
 ```
+
+### 禁用 ||
+
+用递归代替，相当于虚拟状态，不需要另外用一个状态，状态默认是可以观察的，递归只是说虚拟等价。
 
 
 ## 转发

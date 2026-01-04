@@ -46,73 +46,33 @@ $SCopyWith(S _, $Res Function(S) __);
 
 
 class Zero implements S {
-  const Zero([final  List<Post> posts = const []]): _posts = posts;
+  const Zero();
   
 
- final  List<Post> _posts;
-@JsonKey() List<Post> get posts {
-  if (_posts is EqualUnmodifiableListView) return _posts;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_posts);
-}
 
 
-/// Create a copy of S
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$ZeroCopyWith<Zero> get copyWith => _$ZeroCopyWithImpl<Zero>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Zero&&const DeepCollectionEquality().equals(other._posts, _posts));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Zero);
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_posts));
+int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'S.zero(posts: $posts)';
+  return 'S.zero()';
 }
 
 
 }
 
-/// @nodoc
-abstract mixin class $ZeroCopyWith<$Res> implements $SCopyWith<$Res> {
-  factory $ZeroCopyWith(Zero value, $Res Function(Zero) _then) = _$ZeroCopyWithImpl;
-@useResult
-$Res call({
- List<Post> posts
-});
 
 
-
-
-}
-/// @nodoc
-class _$ZeroCopyWithImpl<$Res>
-    implements $ZeroCopyWith<$Res> {
-  _$ZeroCopyWithImpl(this._self, this._then);
-
-  final Zero _self;
-  final $Res Function(Zero) _then;
-
-/// Create a copy of S
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? posts = null,}) {
-  return _then(Zero(
-null == posts ? _self._posts : posts // ignore: cast_nullable_to_non_nullable
-as List<Post>,
-  ));
-}
-
-
-}
 
 /// @nodoc
 
