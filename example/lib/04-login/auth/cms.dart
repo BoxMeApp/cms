@@ -49,7 +49,7 @@ class M extends Cms<S, A> {
                                             return Authenticated(user);
                                           }().catchError((_) => const Unauthenticated()),
     (                _, _RepoUnauth a) => const Unauthenticated(),
-  _                                    => undefined(s, a),
+    _                                  => undefined(s, a),
   };
   // dart format on
 }
