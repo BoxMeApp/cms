@@ -44,17 +44,15 @@ class M extends Cms<S, A> {
     (Loaded s, _Fetch a) => () async {
                               final posts = s.posts;
                               final newPosts = await _repository.fetch(
-                                                posts.length, _postLimit
-                                              );
+                                                posts.length, _postLimit);
 
                               if (newPosts.isEmpty) return Done(posts);
 
                               return Loaded([...posts, ...newPosts]);
                             }().catchError(
-                              (_) => const Failed('Error fetching posts')
-                            ),
-    (Done   s, _Fetch a) =>  null,
-    _                    =>  undefined(s, a),
+                              (_) => const Failed('Error fetching posts')),
+    (Done   s, _Fetch a) => null,
+    _                    => undefined(s, a),
   };
   // dart format on
 }
