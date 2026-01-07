@@ -279,8 +279,8 @@ String toString() {
 /// @nodoc
 
 
-class _RepoAuth implements A {
-  const _RepoAuth();
+class _Auth implements A {
+  const _Auth();
   
 
 
@@ -290,7 +290,7 @@ class _RepoAuth implements A {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RepoAuth);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Auth);
 }
 
 
@@ -311,8 +311,8 @@ String toString() {
 /// @nodoc
 
 
-class _RepoUnauth implements A {
-  const _RepoUnauth();
+class _Unauth implements A {
+  const _Unauth();
   
 
 
@@ -322,7 +322,7 @@ class _RepoUnauth implements A {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RepoUnauth);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Unauth);
 }
 
 

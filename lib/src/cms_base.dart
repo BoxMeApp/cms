@@ -5,8 +5,8 @@ import 'package:meta/meta.dart';
 
 import 'error.dart';
 
-typedef _Forward<A> =
-    Future<void> Function<T>(Stream<T> stream, A? Function(T) onData);
+typedef _Forward<A> = Future<void> Function<T>(
+    Stream<T> stream, A? Function(T) onData);
 
 /// Controlled Markov Stream
 abstract class Cms<S, A> extends Bloc<A, S> {
@@ -24,13 +24,13 @@ abstract class Cms<S, A> extends Bloc<A, S> {
 
   Future<void> _handler(A event, Emitter<S> emit) async {
     _forward = <T>(stream, onData) => emit.onEach<T>(
-      stream,
-      onData: (data) {
-        final a = onData(data);
-        if (a == null) return;
-        add(a);
-      },
-    );
+          stream,
+          onData: (data) {
+            final a = onData(data);
+            if (a == null) return;
+            add(a);
+          },
+        );
     final newState = await kernel(state, event);
     if (newState == null) return;
     emit(newState);
