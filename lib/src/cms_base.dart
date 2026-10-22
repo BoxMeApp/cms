@@ -17,22 +17,32 @@ abstract class Cms<S, A> extends Bloc<A, S> {
   /// markov kernel
   FutureOr<S?> kernel(S s, A a);
 
-  late _Forward<A> _forward;
+  final Object _forwardKey = Object();
   @mustCallSuper
-  Future<void> forward<T>(Stream<T> stream, A? Function(T) onData) =>
-      _forward(stream, onData);
+  Future<void> forward<T>(Stream<T> stream, A? Function(T) onData) {
+    final forward = Zone.current[_forwardKey] as _Forward<A>?;
+    if (forward == null) {
+      throw StateError('forward must be called from a CMS kernel');
+    }
+    return forward(stream, onData);
+  }
 
   Future<void> _handler(A event, Emitter<S> emit) async {
-    _forward = <T>(stream, onData) => emit.onEach<T>(
+    Future<void> forward<T>(Stream<T> stream, A? Function(T) onData) =>
+        emit.onEach<T>(
           stream,
           onData: (data) {
+            if (emit.isDone || isClosed) return;
             final a = onData(data);
             if (a == null) return;
             add(a);
           },
         );
-    final newState = await kernel(state, event);
-    if (newState == null) return;
+    final newState = await runZoned<FutureOr<S?>>(
+      () => kernel(state, event),
+      zoneValues: {_forwardKey: forward},
+    );
+    if (newState == null || emit.isDone) return;
     emit(newState);
   }
 
