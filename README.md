@@ -242,8 +242,10 @@ class M extends Cms<S, A> {
 }
 ```
 
-
-
 ## 辅助工具
 
 - vscode extension: [cms](https://marketplace.visualstudio.com/items?itemName=dzylikecode.cms-generator)
+
+## issue
+
+事件用的是同一个通道，所以会出现 [scheduling_test](test/scheduling_test.dart) 的 bug。需要显式指定不同的通道

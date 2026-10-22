@@ -1,15 +1,15 @@
-## 1.4.5-wip
+## 1.4.5
 
-- Fix `forward` binding being overwritten by concurrent event handlers. Each
-  kernel now retains its own emitter through a dedicated Dart Zone, including
-  across `await` boundaries.
-- Ignore forwarded data and returned states after the associated emitter has
-  finished or been cancelled.
-- Report a `StateError` when `forward` is called outside a CMS kernel context.
-- Add regression tests and sequence diagrams for concurrent forwarding.
-- Add characterization tests for overlapping `pace` registrations and for
-  long-lived forwarding under a global sequential transformer. These tests
-  document existing scheduling behavior; this release does not change it.
+- Fix concurrent handlers overwriting the emitter used by `forward`, which
+  could cancel a subscription immediately after an `await`.
+- Ignore forwarded data and returned states after the handler has completed or
+  been cancelled. Throw `StateError` when `forward` is called outside a kernel.
+- Add forwarding regression tests and scheduling tests.
+- Clarify existing scheduling behavior: events share the default channel unless
+  explicitly registered with `pace<E>`. Use separate registrations when event
+  types need independent scheduling. Avoid overlapping parent and child
+  registrations, which can process an event twice. Scheduling behavior remains
+  unchanged in this release.
 
 ## 1.4.4
 
