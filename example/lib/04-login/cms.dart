@@ -6,12 +6,12 @@ part 'cms.freezed.dart';
 
 @freezed
 sealed class S with _$S {
-  const factory S.zero() = Zero;
+  const factory zero() = Zero;
 }
 
 @freezed
 sealed class A with _$A {
-  const factory A.init() = Init;
+  const factory init() = Init;
 }
 
 class M extends Cms<S, A> {

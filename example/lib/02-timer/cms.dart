@@ -9,20 +9,20 @@ const _duration = 60;
 
 @freezed
 sealed class S with _$S {
-  const factory S.zero(int duration) = Zero;
-  const factory S.paused(int duration, StreamSubscription<int> clock) = Paused;
-  const factory S.running(int duration, StreamSubscription<int> clock) =
+  const factory zero(int duration) = Zero;
+  const factory paused(int duration, StreamSubscription<int> clock) = Paused;
+  const factory running(int duration, StreamSubscription<int> clock) =
       Running;
-  const factory S.completed(int duration) = Completed;
+  const factory completed(int duration) = Completed;
 }
 
 @freezed
 sealed class A with _$A {
-  const factory A.start() = _Start;
-  const factory A.pause() = _Pause;
-  const factory A.resume() = _Resume;
-  const factory A.reset() = _Reset;
-  const factory A._tick(int duration) = _Tick;
+  const factory start() = _Start;
+  const factory pause() = _Pause;
+  const factory resume() = _Resume;
+  const factory reset() = _Reset;
+  const factory _tick(int duration) = _Tick;
 }
 
 class M extends Cms<S, A> {

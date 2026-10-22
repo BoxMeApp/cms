@@ -7,8 +7,8 @@ typedef S = int;
 
 @freezed
 sealed class A with _$A {
-  const factory A.increment() = _Increment;
-  const factory A.decrement() = _Decrement;
+  const factory increment() = _Increment;
+  const factory decrement() = _Decrement;
 }
 
 class M extends Cms<S, A> {

@@ -8,17 +8,17 @@ part 'cms.freezed.dart';
 
 @freezed
 sealed class S with _$S {
-  const factory S.unknown() = Unknown;
-  const factory S.unauthenticated() = Unauthenticated;
-  const factory S.authenticated(User user) = Authenticated;
+  const factory unknown() = Unknown;
+  const factory unauthenticated() = Unauthenticated;
+  const factory authenticated(User user) = Authenticated;
 }
 
 @freezed
 sealed class A with _$A {
-  const factory A.watch() = _Watch;
-  const factory A.logout() = _Logout;
-  const factory A._$1() = _Auth;
-  const factory A._$2() = _Unauth;
+  const factory watch() = _Watch;
+  const factory logout() = _Logout;
+  const factory _$1() = _Auth;
+  const factory _$2() = _Unauth;
 }
 
 class M extends Cms<S, A> {
