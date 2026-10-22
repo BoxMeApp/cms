@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'cms.dart';
@@ -9,6 +9,7 @@ part of 'cms.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $SCopyWith<S> get copyWith => _$SCopyWithImpl<S>(this as S, _$identity);
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is S&&(identical(other.duration, duration) || other.duration == duration));
+  final _this = this as S;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is S&&(identical(other.duration, _this.duration) || other.duration == _this.duration));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,duration);
+int get hashCode {
+  final _this = this as S;
+  return Object.hash(runtimeType,_this.duration);
+}
 
 @override
 String toString() {
-  return 'S(duration: $duration)';
+  final _this = this as S;
+  return 'S(duration: ${_this.duration})';
 }
 
 
@@ -92,16 +98,18 @@ $ZeroCopyWith<Zero> get copyWith => _$ZeroCopyWithImpl<Zero>(this, _$identity);
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Zero&&(identical(other.duration, duration) || other.duration == duration));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Zero&&(identical(other.duration, duration) || other.duration == duration));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,duration);
+int get hashCode {
+    return Object.hash(runtimeType,duration);
+}
 
 @override
 String toString() {
-  return 'S.zero(duration: $duration)';
+    return 'S.zero(duration: $duration)';
 }
 
 
@@ -159,16 +167,18 @@ $PausedCopyWith<Paused> get copyWith => _$PausedCopyWithImpl<Paused>(this, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Paused&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.clock, clock) || other.clock == clock));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Paused&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.clock, clock) || other.clock == clock));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,duration,clock);
+int get hashCode {
+    return Object.hash(runtimeType,duration,clock);
+}
 
 @override
 String toString() {
-  return 'S.paused(duration: $duration, clock: $clock)';
+    return 'S.paused(duration: $duration, clock: $clock)';
 }
 
 
@@ -227,16 +237,18 @@ $RunningCopyWith<Running> get copyWith => _$RunningCopyWithImpl<Running>(this, _
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Running&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.clock, clock) || other.clock == clock));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Running&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.clock, clock) || other.clock == clock));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,duration,clock);
+int get hashCode {
+    return Object.hash(runtimeType,duration,clock);
+}
 
 @override
 String toString() {
-  return 'S.running(duration: $duration, clock: $clock)';
+    return 'S.running(duration: $duration, clock: $clock)';
 }
 
 
@@ -294,16 +306,18 @@ $CompletedCopyWith<Completed> get copyWith => _$CompletedCopyWithImpl<Completed>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Completed&&(identical(other.duration, duration) || other.duration == duration));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Completed&&(identical(other.duration, duration) || other.duration == duration));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,duration);
+int get hashCode {
+    return Object.hash(runtimeType,duration);
+}
 
 @override
 String toString() {
-  return 'S.completed(duration: $duration)';
+    return 'S.completed(duration: $duration)';
 }
 
 
@@ -350,7 +364,7 @@ mixin _$A {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is A);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is A);
 }
 
 
@@ -359,7 +373,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'A()';
+    return 'A()';
 }
 
 
@@ -386,7 +400,7 @@ class _Start implements A {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Start);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Start);
 }
 
 
@@ -395,7 +409,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'A.start()';
+    return 'A.start()';
 }
 
 
@@ -418,7 +432,7 @@ class _Pause implements A {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Pause);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Pause);
 }
 
 
@@ -427,7 +441,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'A.pause()';
+    return 'A.pause()';
 }
 
 
@@ -450,7 +464,7 @@ class _Resume implements A {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Resume);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Resume);
 }
 
 
@@ -459,7 +473,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'A.resume()';
+    return 'A.resume()';
 }
 
 
@@ -482,7 +496,7 @@ class _Reset implements A {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Reset);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Reset);
 }
 
 
@@ -491,7 +505,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'A.reset()';
+    return 'A.reset()';
 }
 
 
@@ -519,16 +533,18 @@ _$TickCopyWith<_Tick> get copyWith => __$TickCopyWithImpl<_Tick>(this, _$identit
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Tick&&(identical(other.duration, duration) || other.duration == duration));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Tick&&(identical(other.duration, duration) || other.duration == duration));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,duration);
+int get hashCode {
+    return Object.hash(runtimeType,duration);
+}
 
 @override
 String toString() {
-  return 'A._tick(duration: $duration)';
+    return 'A._tick(duration: $duration)';
 }
 
 

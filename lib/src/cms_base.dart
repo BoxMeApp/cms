@@ -6,11 +6,14 @@ import 'package:meta/meta.dart';
 import 'error.dart';
 
 typedef _Forward<A> = Future<void> Function<T>(
-    Stream<T> stream, A? Function(T) onData);
+  Stream<T> stream,
+  A? Function(T) onData,
+);
 
 /// Controlled Markov Stream
-abstract class Cms<S, A> extends Bloc<A, S> {
-  Cms(super.s0, [EventTransformer<A>? transformer]) {
+abstract class Cms<S, A>(super.s0, [EventTransformer<A>? transformer])
+    extends Bloc<A, S> {
+  this {
     on<A>(_defaultHandler, transformer: transformer);
   }
 

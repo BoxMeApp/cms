@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 's.dart';
@@ -9,6 +9,7 @@ part of 's.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $StickyNoteCopyWith<StickyNote> get copyWith => _$StickyNoteCopyWithImpl<StickyN
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StickyNote&&(identical(other.id, id) || other.id == id)&&(identical(other.content, content) || other.content == content)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  final _this = this as StickyNote;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StickyNote&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.content, _this.content) || other.content == _this.content)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,content,createdAt);
+int get hashCode {
+  final _this = this as StickyNote;
+  return Object.hash(runtimeType,_this.id,_this.content,_this.createdAt);
+}
 
 @override
 String toString() {
-  return 'StickyNote(id: $id, content: $content, createdAt: $createdAt)';
+  final _this = this as StickyNote;
+  return 'StickyNote(id: ${_this.id}, content: ${_this.content}, createdAt: ${_this.createdAt})';
 }
 
 
@@ -63,7 +69,7 @@ class _$StickyNoteCopyWithImpl<$Res>
 /// Create a copy of StickyNote
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? content = null,Object? createdAt = null,}) {
-  return _then(_self.copyWith(
+  return _then(StickyNote(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -96,16 +102,18 @@ _$StickyNoteCopyWith<_StickyNote> get copyWith => __$StickyNoteCopyWithImpl<_Sti
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StickyNote&&(identical(other.id, id) || other.id == id)&&(identical(other.content, content) || other.content == content)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _StickyNote&&(identical(other.id, id) || other.id == id)&&(identical(other.content, content) || other.content == content)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,content,createdAt);
+int get hashCode {
+    return Object.hash(runtimeType,id,content,createdAt);
+}
 
 @override
 String toString() {
-  return 'StickyNote(id: $id, content: $content, createdAt: $createdAt)';
+    return 'StickyNote(id: $id, content: $content, createdAt: $createdAt)';
 }
 
 
@@ -154,7 +162,7 @@ mixin _$S {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is S);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is S);
 }
 
 
@@ -163,7 +171,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'S()';
+    return 'S()';
 }
 
 
@@ -190,7 +198,7 @@ class Zero implements S {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Zero);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Zero);
 }
 
 
@@ -199,7 +207,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'S.zero()';
+    return 'S.zero()';
 }
 
 
@@ -227,16 +235,18 @@ $EditingCopyWith<Editing> get copyWith => _$EditingCopyWithImpl<Editing>(this, _
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Editing&&(identical(other.note, note) || other.note == note));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Editing&&(identical(other.note, note) || other.note == note));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,note);
+int get hashCode {
+    return Object.hash(runtimeType,note);
+}
 
 @override
 String toString() {
-  return 'S.editing(note: $note)';
+    return 'S.editing(note: $note)';
 }
 
 
@@ -302,16 +312,18 @@ $DoneCopyWith<Done> get copyWith => _$DoneCopyWithImpl<Done>(this, _$identity);
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Done&&(identical(other.note, note) || other.note == note));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Done&&(identical(other.note, note) || other.note == note));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,note);
+int get hashCode {
+    return Object.hash(runtimeType,note);
+}
 
 @override
 String toString() {
-  return 'S.done(note: $note)';
+    return 'S.done(note: $note)';
 }
 
 
@@ -377,16 +389,18 @@ $FailureCopyWith<Failure> get copyWith => _$FailureCopyWithImpl<Failure>(this, _
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Failure&&(identical(other.message, message) || other.message == message));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Failure&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,message);
+int get hashCode {
+    return Object.hash(runtimeType,message);
+}
 
 @override
 String toString() {
-  return 'S.failure(message: $message)';
+    return 'S.failure(message: $message)';
 }
 
 

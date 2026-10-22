@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'cms.dart';
@@ -9,6 +9,7 @@ part of 'cms.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -20,7 +21,7 @@ mixin _$S {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is S);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is S);
 }
 
 
@@ -29,7 +30,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'S()';
+    return 'S()';
 }
 
 
@@ -56,7 +57,7 @@ class Unknown implements S {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Unknown);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Unknown);
 }
 
 
@@ -65,7 +66,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'S.unknown()';
+    return 'S.unknown()';
 }
 
 
@@ -88,7 +89,7 @@ class Unauthenticated implements S {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Unauthenticated);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Unauthenticated);
 }
 
 
@@ -97,7 +98,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'S.unauthenticated()';
+    return 'S.unauthenticated()';
 }
 
 
@@ -125,16 +126,18 @@ $AuthenticatedCopyWith<Authenticated> get copyWith => _$AuthenticatedCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Authenticated&&(identical(other.user, user) || other.user == user));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Authenticated&&(identical(other.user, user) || other.user == user));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,user);
+int get hashCode {
+    return Object.hash(runtimeType,user);
+}
 
 @override
 String toString() {
-  return 'S.authenticated(user: $user)';
+    return 'S.authenticated(user: $user)';
 }
 
 
@@ -190,7 +193,7 @@ mixin _$A {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is A);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is A);
 }
 
 
@@ -199,7 +202,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'A()';
+    return 'A()';
 }
 
 
@@ -226,7 +229,7 @@ class _Watch implements A {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Watch);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Watch);
 }
 
 
@@ -235,7 +238,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'A.watch()';
+    return 'A.watch()';
 }
 
 
@@ -258,7 +261,7 @@ class _Logout implements A {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Logout);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Logout);
 }
 
 
@@ -267,7 +270,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'A.logout()';
+    return 'A.logout()';
 }
 
 
@@ -290,7 +293,7 @@ class _Auth implements A {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Auth);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Auth);
 }
 
 
@@ -299,7 +302,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'A._\$1()';
+    return 'A._\$1()';
 }
 
 
@@ -322,7 +325,7 @@ class _Unauth implements A {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Unauth);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Unauth);
 }
 
 
@@ -331,7 +334,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'A._\$2()';
+    return 'A._\$2()';
 }
 
 
