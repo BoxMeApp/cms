@@ -13,15 +13,15 @@ const throttleDuration = Duration(milliseconds: 100);
 
 @freezed
 sealed class S with _$S {
-  const factory S.zero() = Zero;
-  const factory S.loaded(List<Post> posts) = Loaded;
-  const factory S.done(List<Post> posts) = Done;
-  const factory S.failed(String message) = Failed;
+  const factory zero() = Zero;
+  const factory loaded(List<Post> posts) = Loaded;
+  const factory done(List<Post> posts) = Done;
+  const factory failed(String message) = Failed;
 }
 
 @freezed
 sealed class A with _$A {
-  const factory A.fetch() = _Fetch;
+  const factory fetch() = _Fetch;
 }
 
 EventTransformer<E> throttleDroppable<E>(Duration duration) {
@@ -30,10 +30,8 @@ EventTransformer<E> throttleDroppable<E>(Duration duration) {
   };
 }
 
-class M extends Cms<S, A> {
-  final Repository _repository;
-
-  M(this._repository) : super(const Zero()) {
+class M(final Repository _repository) extends Cms<S, A> {
+  this : super(const Zero()) {
     pace<_Fetch>(throttleDroppable(throttleDuration));
   }
 
