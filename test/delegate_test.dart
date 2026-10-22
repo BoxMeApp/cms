@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:cms/cms.dart';
 import 'package:test/test.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'delegate_test.freezed.dart';
 
 /**
  * 这么看，Cms 和 Bloc:
@@ -15,7 +18,7 @@ void main() {
     blocTest(
       'case 1',
       build: () => M(),
-      act: (cms) => cms.add(const Fetch()),
+      act: (cms) => cms.add(const .fetch()),
       expect: () => [S(0, 1), S(1, 1)],
     );
 
@@ -23,8 +26,8 @@ void main() {
       "case 2",
       build: () => M(),
       act: (cms) => cms
-        ..add(const Fetch())
-        ..add(const Fetch()),
+        ..add(const .fetch())
+        ..add(const .fetch()),
       expect: () => [S(0, 1), S(0, 2), S(1, 2), S(2, 2)],
     );
   });
@@ -33,7 +36,7 @@ void main() {
     blocTest(
       'case 1',
       build: () => B(),
-      act: (bloc) => bloc.add(const Fetch()),
+      act: (bloc) => bloc.add(const .fetch()),
       expect: () => [S(0, 1), S(1, 1)],
     );
 
@@ -41,8 +44,8 @@ void main() {
       "case 2",
       build: () => B$(),
       act: (bloc) => bloc
-        ..add(const Fetch())
-        ..add(const Fetch()),
+        ..add(const .fetch())
+        ..add(const .fetch()),
       expect: () => [S(0, 1), S(1, 1), S(1, 2), S(2, 2)],
     );
 
@@ -50,61 +53,45 @@ void main() {
       "case 2'",
       build: () => B(),
       act: (bloc) => bloc
-        ..add(const Fetch())
-        ..add(const Fetch()),
+        ..add(const .fetch())
+        ..add(const .fetch()),
       expect: () => [S(0, 1), S(0, 2), S(1, 2), S(2, 2)],
     );
   });
 }
 
-sealed class E {
-  const E();
+@freezed
+sealed class E with _$E {
+  const factory fetch() = _Fetch;
+  const factory _realFetch() = _RealFetch;
 }
 
-class Fetch extends E {
-  const Fetch();
-}
-
-class _RealFetch extends E {
-  const _RealFetch();
-}
-
-class S {
-  final int data;
-  final int loading;
-  const S(this.data, [this.loading = 0]);
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is S && data == other.data && loading == other.loading;
-
-  @override
-  int get hashCode => Object.hash(data, loading);
-
-  @override
-  String toString() => 'S(data: $data, loading: $loading)';
+@freezed
+abstract class S with _$S {
+  const factory(int data, [@Default(0) int loading]) = _S;
 }
 
 class M extends Cms<S, E> {
   M() : super(S(0));
 
+  // dart format off
   @override
-  FutureOr<S?> kernel(S s, E a) => switch (a) {
-    Fetch _ => () {
-      add(_RealFetch());
-      return S(s.data, s.loading + 1);
-    }(),
-    _RealFetch _ => S(s.data + 1, s.loading),
+  FutureOr<S?> kernel(S s, E a) => switch ((s, a)) {
+    (S s, _Fetch     a) => () {
+                            add(const ._realFetch());
+                            return S(s.data, s.loading + 1);
+                          }(),
+    (S s, _RealFetch a) => S(s.data + 1, s.loading),
   };
+  // dart format on
 }
 
 class B extends Bloc<E, S> {
   B() : super(S(0)) {
-    on<Fetch>((event, emit) {
+    on<_Fetch>((event, emit) {
       final loading = state.loading + 1;
       emit(S(state.data, loading));
-      add(_RealFetch());
+      add(const ._realFetch());
     });
     on<_RealFetch>((event, emit) {
       emit(S(state.data + 1, state.loading));
@@ -114,7 +101,7 @@ class B extends Bloc<E, S> {
 
 class B$ extends Bloc<E, S> {
   B$() : super(S(0)) {
-    on<Fetch>((event, emit) {
+    on<_Fetch>((event, emit) {
       final loading = state.loading + 1;
       emit(S(state.data, loading));
       emit(S(state.data + 1, loading));

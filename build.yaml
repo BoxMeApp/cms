@@ -1,0 +1,9 @@
+targets:
+  $default:
+    builders:
+      freezed:
+        generate_for:
+          - test/**
+        options:
+          map: false
+          when: false

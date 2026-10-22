@@ -2,145 +2,139 @@ import 'dart:async';
 
 import 'package:cms/cms.dart';
 import 'package:test/test.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'forward_test.freezed.dart';
 
 void main() {
-  /// 没有其他事件覆盖绑定时，挂起后启动的转发仍能收到源数据。
-  test('Forwarding receives source data without an overlapping event',
-      () async {
-    final cms = ForwardProbe();
-    addTearDown(cms.dispose);
-    // dart format off
-    cms.add(const Watch());
-    await cms.watchStarted.future;
-    cms.resumeWatch.complete();
-    await cms.sourceListened.future;
-    final received = cms.stream.firstWhere((value) => value == 7);
-    cms.source.add(7);
-    await received;                                                            expect(cms.state, 7);
-                                                                                expect(cms.sourceCancelled.isCompleted, isFalse);
-    await cms.source.close();
-    await cms.watchDone.future;                                                 expect(cms.sourceCancelled.isCompleted, isTrue);
-    // dart format on
+  late WatchController controller;
+  late ForwardProbe cms;
+
+  setUp(() {
+    controller = WatchController();
+    cms = ForwardProbe(controller);
+  });
+  tearDown(() async {
+    await controller.dispose();
+    await cms.close();
   });
 
-  // Before the fix (time flows downward):
-  //
-  // Watch                       Other                       Shared _forward
-  //   |                           |                               |
-  //   |-- handler starts ---------------------------------------> emitWatch
-  //   |-- await resumeWatch       |                               |
-  //   |   (not subscribed yet)    |                               |
-  //   |                           |-- handler starts -----------> emitOther
-  //   |                           |-- done; emitOther completes   |
-  //   |-- resume; call forward ---------------------------------> emitOther
-  //   |<-- new subscription is cancelled immediately              |
-  //   |-- source sends 7; no Data(7) is produced                   |
-  //
-  // Other 覆盖的是共享的转发函数绑定，不是取消 Watch 事件，
-  // 也不是中断一条已经建立的 Watch 订阅。
-  //
-  // After the fix (time flows downward):
-  //
-  // Watch / Zone W              Other / Zone O
-  //   |                           |
-  //   |-- bind emitWatch          |
-  //   |-- await resumeWatch       |
-  //   |                           |-- bind emitOther
-  //   |                           |-- done; Zone W is unaffected
-  //   |-- resume; use emitWatch   |
-  //   |<-- source sends 7         |
-  //   |-- add(Data(7)); state = 7 |
-  //   |-- source closes; subscription ends normally
+  /// 没有其他事件覆盖绑定时，挂起后启动的转发仍能收到源数据。
+  test(
+    'Forwarding receives source data without an overlapping event',
+    () async {
+      // dart format off
+      cms.add(const .watch());
+      await Future.delayed(.zero);      expect(controller.isInitStarted, isTrue);
+                                        // 完成初始化，让 Watch 开始转发
+                                        controller.completeInit();
+                                        await Future.delayed(.zero);
+                                        expect(controller.isListening, isTrue);
+                                        expect(controller.isCancelled, isFalse);
+                                        final states = expectLater(cms.stream, emitsInOrder([7, emitsDone]));
+      controller.add(7);
+      await controller.close();
+      await cms.close();                expect(controller.isCancelled, isTrue);
+                                        await states;                    
+                                        expect(cms.state, 7);
+      // dart format on
+    },
+  );
+
+  // Watch.init pending -> Other.done -> Watch.forward
+  // Before: shared binding -> emitOther (done) -> cancelled
+  // After:  Watch's Zone   -> emitWatch        -> receives 7
   //
   /// 另一事件结束后，Watch 的转发仍属于自身，必须收到源流中的 7。
-  test('Forwarding keeps its own emitter after an overlapping event completes', () async {
-    final cms = ForwardProbe();
-    addTearDown(cms.dispose);
-    // dart format off
-    cms.add(const Watch());
-    await cms.watchStarted.future;
-    cms.add(const Other());
-    await cms.otherDone.future;
-    final outcome = Future.any<Object>([
-      cms.stream.firstWhere((value) => value == 7),
-      cms.sourceCancelled.future.then((_) => 'cancelled'),
-    ]);
-    cms.resumeWatch.complete();
-    await cms.sourceListened.future;
-    cms.source.add(7);
-    final result = await outcome;                                              expect(result, 7);
-                                                                                expect(cms.state, 7);
-                                                                                expect(cms.received, [7]);
-                                                                                expect(cms.sourceCancelled.isCompleted, isFalse);
-    await cms.source.close();
-    await cms.watchDone.future;                                                 expect(cms.sourceCancelled.isCompleted, isTrue);
-    // dart format on
-  });
+  test(
+    'Forwarding keeps its own emitter after an overlapping event completes',
+    () async {
+      // dart format off
+      cms.add(const .watch());
+      await Future.delayed(.zero);      expect(controller.isInitStarted, isTrue);
+      cms.add(const .other());
+                                        await Future.delayed(.zero);
+                                        // 初始化的过程中插入其他事件
+                                        controller.completeInit();
+                                        await controller.listening;
+                                        expect(controller.isListening, isTrue);
+                                        expect(controller.isCancelled, isFalse);
+                                        final states = expectLater(cms.stream, emitsInOrder([7, emitsDone]));
+      controller.add(7);
+      await controller.close();
+      await cms.close();                expect(controller.isCancelled, isTrue);
+                                        await states;
+                                        expect(cms.state, 7);
+      // dart format on
+    },
+  );
 }
 
-sealed class Action {
-  const Action();
+@freezed
+sealed class Action with _$Action {
+  const factory watch() = _Watch;
+  const factory other() = _Other;
+  const factory data(int value) = _Data;
 }
 
-class Watch extends Action {
-  const Watch();
-}
-
-class Other extends Action {
-  const Other();
-}
-
-class Data extends Action {
-  const Data(this.value);
-  final int value;
-}
-
-class ForwardProbe extends Cms<int, Action> {
-  ForwardProbe() : super(0) {
-    source = StreamController<int>(
-      onListen: sourceListened.complete,
-      onCancel: sourceCancelled.complete,
-    );
-  }
-
-  late final StreamController<int> source;
-  final watchStarted = Completer<void>();
-  final resumeWatch = Completer<void>();
-  final sourceListened = Completer<void>();
-  final sourceCancelled = Completer<void>();
-  final otherDone = Completer<void>();
-  final watchDone = Completer<void>();
-  final received = <int>[];
+class ForwardProbe(final WatchController controller) extends Cms<int, Action> {
+  this : super(0);
 
   // dart format off
   @override
   FutureOr<int?> kernel(int s, Action a) => switch ((s, a)) {
-    (int s, Watch a) => () async {
-                          watchStarted.complete();
-                          await resumeWatch.future;
-                          await forward(source.stream, (value) {
-                            received.add(value);
-                            return Data(value);
-                          });
+    (int s, _Watch a) => () async {
+                          await controller.init();
+                          await forward(controller.stream, (value) => .data(value));
                           return null;
                         }(),
-    (int s, Other a) => null,
-    (int s, Data  a) => a.value,
+    (int s, _Other a) => null,
+    (int s, _Data  a) => a.value,
   };
   // dart format on
 
-  @override
-  void onDone(Action event, [Object? error, StackTrace? stackTrace]) {
-    super.onDone(event, error, stackTrace);
-    if (event is Other) otherDone.complete();
-    if (event is Watch) watchDone.complete();
+
+}
+
+// 流源及阶段信号通过依赖注入提供，CMS 不负责测试的同步与清理。
+class WatchController() {
+  this {
+    _source = StreamController<int>(
+      onListen: _listening.complete,
+      onCancel: () => _isCancelled = true,
+    );
   }
 
+  late final StreamController<int> _source;
+  bool _isInitStarted = false;
+  final _initCompleted = Completer<void>();
+  final _listening = Completer<void>();
+  bool _isCancelled = false;
+
+  bool get isInitStarted => _isInitStarted;
+  Future<void> get listening => _listening.future;
+  bool get isListening => _source.hasListener;
+  bool get isCancelled => _isCancelled;
+
+  Stream<int> get stream => _source.stream;
+
+  Future<void> init() {
+    _isInitStarted = true;
+    return _initCompleted.future;
+  }
+
+  void completeInit() {
+    if (!_initCompleted.isCompleted) _initCompleted.complete();
+  }
+
+  void add(int value) => _source.add(value);
+  Future<void> close() => _source.close();
+
+
   Future<void> dispose() async {
-    if (!resumeWatch.isCompleted) resumeWatch.complete();
-    // 确保转发订阅已建立后再关闭源，避免清理挂起。
-    await sourceListened.future;
-    await source.close();
+    completeInit();
+    // 初始化已开始时，等待它完成并建立订阅，再关闭源以避免清理挂起。
+    if (_isInitStarted) await _listening.future;
     await close();
   }
 }
