@@ -1,13 +1,11 @@
 import 'package:cms/cms.dart';
 
-import 's.dart';
-import 'a.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-export 'a.dart';
-export 's.dart';
+part 'cms.freezed.dart';
 
-class M extends Cms<S, A> {
-  M() : super(const Zero());
+class M() extends Cms<S, A> {
+  this : super(const .zero());
 
   @override
   S kernel(S s, A a) => switch ((s, a)) {
@@ -22,4 +20,14 @@ class M extends Cms<S, A> {
     }
     super.onError(error, stackTrace);
   }
+}
+
+@freezed
+sealed class S with _$S {
+  const factory zero() = Zero;
+}
+
+@freezed
+sealed class A with _$A {
+  const factory trigger() = _Trigger;
 }

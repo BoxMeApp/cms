@@ -6,7 +6,7 @@ class AuthenticationRepository {
   final _controller = StreamController<AuthenticationStatus>();
 
   Stream<AuthenticationStatus> get status async* {
-    await Future<void>.delayed(const Duration(seconds: 1));
+    await Future<void>.delayed(const .new(seconds: 1));
     yield .unauthenticated;
     yield* _controller.stream;
   }
@@ -16,7 +16,7 @@ class AuthenticationRepository {
     required String password,
   }) async {
     await Future.delayed(
-      const Duration(milliseconds: 300),
+      const .new(milliseconds: 300),
       () => _controller.add(.authenticated),
     );
   }

@@ -11,8 +11,8 @@ sealed class A with _$A {
   const factory decrement() = _Decrement;
 }
 
-class M extends Cms<S, A> {
-  M() : super(0);
+class M() extends Cms<S, A> {
+  this : super(0);
   @override
   S kernel(S s, A a) => switch (a) {
     _Increment _ => s + 1,

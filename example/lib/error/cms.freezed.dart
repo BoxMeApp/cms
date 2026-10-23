@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'a.dart';
+part of 'cms.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,6 +12,69 @@ part of 'a.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
+/// @nodoc
+mixin _$S {
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is S);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+    return 'S()';
+}
+
+
+}
+
+/// @nodoc
+class $SCopyWith<$Res>  {
+$SCopyWith(S _, $Res Function(S) __);
+}
+
+
+
+/// @nodoc
+
+
+class Zero implements S {
+  const Zero();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is Zero);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+    return 'S.zero()';
+}
+
+
+}
+
+
+
+
 /// @nodoc
 mixin _$A {
 
@@ -46,8 +109,8 @@ $ACopyWith(A _, $Res Function(A) __);
 /// @nodoc
 
 
-class Trigger implements A {
-  const Trigger();
+class _Trigger implements A {
+  const _Trigger();
   
 
 
@@ -57,7 +120,7 @@ class Trigger implements A {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is Trigger);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Trigger);
 }
 
 

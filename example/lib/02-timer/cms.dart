@@ -11,8 +11,7 @@ const _duration = 60;
 sealed class S with _$S {
   const factory zero(int duration) = Zero;
   const factory paused(int duration, StreamSubscription<int> clock) = Paused;
-  const factory running(int duration, StreamSubscription<int> clock) =
-      Running;
+  const factory running(int duration, StreamSubscription<int> clock) = Running;
   const factory completed(int duration) = Completed;
 }
 
@@ -25,34 +24,33 @@ sealed class A with _$A {
   const factory _tick(int duration) = _Tick;
 }
 
-class M extends Cms<S, A> {
-  final Ticker _ticker;
-  M(this._ticker) : super(const Zero(_duration));
+class M(final Ticker _ticker) extends Cms<S, A> {
+  this : super(const .zero(_duration));
 
   // dart format off
   @override
   S? kernel(S s, A a) => switch ((s, a)) {
-    (Zero      s, _Start  a) => () {
+    (Zero      s, _Start  _) => () {
                                   final clock = _ticker
                                       .tick(ticks: _duration)
-                                      .listen((t) => add(_Tick(t)));
+                                      .listen((t) => add(._tick(t)));
                                   return Running(s.duration, clock);
                                 }(),
-    (Running   s, _Pause  a) => () {
+    (Running   s, _Pause  _) => () {
                                   s.clock.pause();
                                   return Paused(s.duration, s.clock);
                                 }(),
-    (Paused    s, _Resume a) => () {
+    (Paused    s, _Resume _) => () {
                                   s.clock.resume();
                                   return Running(s.duration, s.clock);
                                 }(),
-    (Paused    s, _Reset  a) => () {
+    (Paused    s, _Reset  _) => () {
                                   final clock = s.clock;      
                                   clock.cancel();
                                   return const Zero(_duration);
                                 }(),
     (Running   s, _Reset  a) => kernel(Paused(s.duration, s.clock), a),
-    (Completed s, _Reset  a) => const Zero(_duration),
+    (Completed _, _Reset  _) => const Zero(_duration),
     (Running   s, _Tick   a) => () {
                                   final duration = a.duration;
                                   final clock = s.clock;
@@ -68,11 +66,10 @@ class M extends Cms<S, A> {
   // dart format on
 }
 
-class Ticker {
-  const Ticker();
+class const Ticker() {
   Stream<int> tick({required int ticks}) {
     return Stream.periodic(
-      const Duration(seconds: 1),
+      const .new(seconds: 1),
       (x) => ticks - x - 1,
     ).take(ticks);
   }

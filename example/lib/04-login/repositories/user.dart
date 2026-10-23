@@ -5,7 +5,7 @@ part 'user.freezed.dart';
 
 @freezed
 abstract class User with _$User {
-  const factory User(String id) = _User;
+  const factory(String id) = _User;
 
   static const empty = User('-');
 }
@@ -16,7 +16,7 @@ class UserRepository {
   Future<User?> getUser() async {
     if (_user != null) return _user;
     return Future.delayed(
-      const Duration(milliseconds: 300),
+      const .new(milliseconds: 300),
       () => _user = User(const Uuid().v4()),
     );
   }

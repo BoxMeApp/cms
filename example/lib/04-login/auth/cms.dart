@@ -17,38 +17,39 @@ sealed class S with _$S {
 sealed class A with _$A {
   const factory watch() = _Watch;
   const factory logout() = _Logout;
-  const factory _$1() = _Auth;
-  const factory _$2() = _Unauth;
+  const factory _authenticated() = _Auth;
+  const factory _unauthenticated() = _Unauth;
 }
 
-class M extends Cms<S, A> {
-  final AuthenticationRepository _authRepo;
-  final UserRepository _userRepo;
-  M(this._authRepo, this._userRepo) : super(const Unknown());
+class M(
+  final AuthenticationRepository _authRepo,
+  final UserRepository _userRepo,
+) extends Cms<S, A> {
+  this : super(const .unknown());
   // dart format off
   @override
   Future<S?> kernel(S s, A a) async => switch ((s, a)) {
-    (Unknown         s, _Watch  a) => kernel(const Unauthenticated(), a),
-    (Unauthenticated s, _Watch  a) => forward(
+    (Unknown         _, _Watch  a) => kernel(const Unauthenticated(), a),
+    (Unauthenticated _, _Watch  _) => forward(
                                         _authRepo.status,
                                         (status) => switch (status) {
-                                          .unauthenticated => const _Unauth(),
-                                          .authenticated => const _Auth(),
+                                          .unauthenticated => const ._unauthenticated(),
+                                          .authenticated => const ._authenticated(),
                                         },
                                       ).then((_) => null),
-    (Authenticated   s, _Logout a) => () {
+    (Authenticated   _, _Logout _) => () {
                                         _authRepo.logOut();
                                         return null;
                                       }(),
-    (Unknown         s, _Auth   a) => kernel(const Unauthenticated(), a),
-    (Unauthenticated s, _Auth   a) => () async {
+    (Unknown         _, _Auth   a) => kernel(const Unauthenticated(), a),
+    (Unauthenticated _, _Auth   _) => () async {
                                         final user = await _userRepo.getUser();
                                         if (user == null) {
                                           return const Unauthenticated();
                                         }
                                         return Authenticated(user);
                                       }().catchError((_) => const Unauthenticated()),
-    (                _, _Unauth a) => const Unauthenticated(),
+    (                _, _Unauth _) => const Unauthenticated(),
     _                              => undefined(s, a),
   };
   // dart format on

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widget_previews.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'models/post.dart';
 
 import 'cms.dart';
@@ -9,8 +10,7 @@ import 'repositories/repository.dart';
 
 class PostPage extends StatelessWidget {
   @Preview(name: 'Infinite List')
-  const PostPage({super.key});
-
+  const new({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -20,18 +20,14 @@ class PostPage extends StatelessWidget {
   }
 }
 
-class PostView extends StatelessWidget {
-  const PostView({super.key});
-
+class const PostView({super.key}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: PostsList());
   }
 }
 
-class PostsList extends StatefulWidget {
-  const PostsList({super.key});
-
+class const PostsList({super.key}) extends StatefulWidget {
   @override
   State<PostsList> createState() => _PostsListState();
 }
@@ -88,11 +84,8 @@ class _PostsListState extends State<PostsList> {
   }
 }
 
-class PostListItem extends StatelessWidget {
-  const PostListItem({required this.post, super.key});
-
-  final Post post;
-
+class const PostListItem({required final Post post, super.key})
+    extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -106,9 +99,7 @@ class PostListItem extends StatelessWidget {
   }
 }
 
-class BottomLoader extends StatelessWidget {
-  const BottomLoader({super.key});
-
+class const BottomLoader({super.key}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(

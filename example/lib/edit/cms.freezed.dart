@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 's.dart';
+part of 'cms.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -431,6 +431,205 @@ class _$FailureCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
   return _then(Failure(
 null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+mixin _$A {
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is A);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+    return 'A()';
+}
+
+
+}
+
+/// @nodoc
+class $ACopyWith<$Res>  {
+$ACopyWith(A _, $Res Function(A) __);
+}
+
+
+
+/// @nodoc
+
+
+class _Pop implements A {
+  const _Pop();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Pop);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+    return 'A.pop()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class _FetchNote implements A {
+  const _FetchNote([this.id]);
+  
+
+ final  int? id;
+
+/// Create a copy of A
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$FetchNoteCopyWith<_FetchNote> get copyWith => __$FetchNoteCopyWithImpl<_FetchNote>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FetchNote&&(identical(other.id, id) || other.id == id));
+}
+
+
+@override
+int get hashCode {
+    return Object.hash(runtimeType,id);
+}
+
+@override
+String toString() {
+    return 'A.fetchNote(id: $id)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$FetchNoteCopyWith<$Res> implements $ACopyWith<$Res> {
+  factory _$FetchNoteCopyWith(_FetchNote value, $Res Function(_FetchNote) _then) = __$FetchNoteCopyWithImpl;
+@useResult
+$Res call({
+ int? id
+});
+
+
+
+
+}
+/// @nodoc
+class __$FetchNoteCopyWithImpl<$Res>
+    implements _$FetchNoteCopyWith<$Res> {
+  __$FetchNoteCopyWithImpl(this._self, this._then);
+
+  final _FetchNote _self;
+  final $Res Function(_FetchNote) _then;
+
+/// Create a copy of A
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? id = freezed,}) {
+  return _then(_FetchNote(
+freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _NewContent implements A {
+  const _NewContent(this.content);
+  
+
+ final  String content;
+
+/// Create a copy of A
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$NewContentCopyWith<_NewContent> get copyWith => __$NewContentCopyWithImpl<_NewContent>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _NewContent&&(identical(other.content, content) || other.content == content));
+}
+
+
+@override
+int get hashCode {
+    return Object.hash(runtimeType,content);
+}
+
+@override
+String toString() {
+    return 'A.newContent(content: $content)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$NewContentCopyWith<$Res> implements $ACopyWith<$Res> {
+  factory _$NewContentCopyWith(_NewContent value, $Res Function(_NewContent) _then) = __$NewContentCopyWithImpl;
+@useResult
+$Res call({
+ String content
+});
+
+
+
+
+}
+/// @nodoc
+class __$NewContentCopyWithImpl<$Res>
+    implements _$NewContentCopyWith<$Res> {
+  __$NewContentCopyWithImpl(this._self, this._then);
+
+  final _NewContent _self;
+  final $Res Function(_NewContent) _then;
+
+/// Create a copy of A
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? content = null,}) {
+  return _then(_NewContent(
+null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

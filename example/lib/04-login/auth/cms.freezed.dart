@@ -302,7 +302,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-    return 'A._\$1()';
+    return 'A._authenticated()';
 }
 
 
@@ -334,7 +334,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-    return 'A._\$2()';
+    return 'A._unauthenticated()';
 }
 
 

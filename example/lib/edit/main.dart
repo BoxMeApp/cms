@@ -2,13 +2,13 @@ import 'cms.dart';
 
 void main() async {
   final memory = Memory();
-  final cms = NoteEditCms(memory);
+  final cms = M(memory);
 
   print(cms.state);
 
-  cms.add(FetchNote());
+  cms.add(const .fetchNote());
 
-  await Future.delayed(Duration.zero);
+  await Future.delayed(.zero);
 
   print(cms.state);
 

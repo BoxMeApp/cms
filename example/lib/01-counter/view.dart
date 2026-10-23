@@ -6,16 +6,13 @@ import 'cms.dart';
 
 class CounterPage extends StatelessWidget {
   @Preview(name: 'Counter')
-  const CounterPage({super.key});
-
+  const new({super.key});
   @override
   Widget build(BuildContext context) =>
       BlocProvider(create: (context) => M(), child: CounterView());
 }
 
-class CounterView extends StatelessWidget {
-  const CounterView({super.key});
-
+class const CounterView({super.key}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

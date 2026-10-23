@@ -6,8 +6,7 @@ import 'cms.dart';
 
 class TimerPage extends StatelessWidget {
   @Preview(name: 'Timer')
-  const TimerPage({super.key});
-
+  const new({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -17,9 +16,7 @@ class TimerPage extends StatelessWidget {
   }
 }
 
-class TimerView extends StatelessWidget {
-  const TimerView({super.key});
-
+class const TimerView({super.key}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
@@ -42,9 +39,7 @@ class TimerView extends StatelessWidget {
   }
 }
 
-class TimerText extends StatelessWidget {
-  const TimerText({super.key});
-
+class const TimerText({super.key}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final duration = context.select((M bloc) => bloc.state.duration);
@@ -55,23 +50,20 @@ class TimerText extends StatelessWidget {
     final secondsStr = (duration % 60).toString().padLeft(2, '0');
     return Text(
       '$minutesStr:$secondsStr',
-      style: Theme.of(
-        context,
-      ).textTheme.displayLarge?.copyWith(fontWeight: FontWeight.w500),
+      style: Theme.of(context).textTheme.displayLarge
+          ?.copyWith(fontWeight: .w500),
     );
   }
 }
 
-class Actions extends StatelessWidget {
-  const Actions({super.key});
-
+class const Actions({super.key}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<M, S>(
       buildWhen: (prev, cur) => prev.runtimeType != cur.runtimeType,
       builder: (context, s) {
         return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: .spaceEvenly,
           children: switch (s) {
             Zero() => [
               FloatingActionButton(
@@ -112,17 +104,15 @@ class Actions extends StatelessWidget {
   }
 }
 
-class Background extends StatelessWidget {
-  const Background({super.key});
-
+class const Background({super.key}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox.expand(
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+            begin: .topCenter,
+            end: .bottomCenter,
             colors: [Colors.blue.shade50, Colors.blue.shade500],
           ),
         ),

@@ -9,9 +9,9 @@ void main() async {
 
   print(m.state);
 
-  m.add(Trigger());
+  m.add(const .trigger());
 
-  await Future.delayed(Duration.zero);
+  await Future.delayed(.zero);
 
   print(m.state);
 

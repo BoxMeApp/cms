@@ -109,8 +109,8 @@ $ACopyWith(A _, $Res Function(A) __);
 /// @nodoc
 
 
-class Init implements A {
-  const Init();
+class _Init implements A {
+  const _Init();
   
 
 
@@ -120,7 +120,7 @@ class Init implements A {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is Init);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Init);
 }
 
 

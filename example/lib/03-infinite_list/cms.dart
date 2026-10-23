@@ -31,15 +31,15 @@ EventTransformer<E> throttleDroppable<E>(Duration duration) {
 }
 
 class M(final Repository _repository) extends Cms<S, A> {
-  this : super(const Zero()) {
+  this : super(const .zero()) {
     pace<_Fetch>(throttleDroppable(throttleDuration));
   }
 
   // dart format off
   @override
   Future<S?> kernel(S s, A a) async => switch ((s, a)) {
-    (Zero   s, _Fetch a) => kernel(Loaded([]), a),
-    (Loaded s, _Fetch a) => () async {
+    (Zero   _, _Fetch a) => kernel(Loaded([]), a),
+    (Loaded s, _Fetch _) => () async {
                               final posts = s.posts;
                               final newPosts = await _repository.fetch(
                                                 posts.length, _postLimit);
@@ -49,7 +49,7 @@ class M(final Repository _repository) extends Cms<S, A> {
                               return Loaded([...posts, ...newPosts]);
                             }().catchError(
                               (_) => const Failed('Error fetching posts')),
-    (Done   s, _Fetch a) => null,
+    (Done   _, _Fetch _) => null,
     _                    => undefined(s, a),
   };
   // dart format on
