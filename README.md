@@ -242,6 +242,14 @@ class M extends Cms<S, A> {
 }
 ```
 
+## 关闭与异步操作
+
+使用默认事件调度时，`await cms.close()` 可以在正在执行的 `kernel` 所等待的 Future 完成之前结束。Bloc 会取消该事件的 emitter；Future 随后完成时，CMS 通过 `emit.isDone` 忽略返回的状态。
+
+这不会取消底层操作。例如，设置页关闭后，repository 已开始的保存仍可完成。仅为了避免关闭后发出状态，无需再增加停止信号或用 `Future.any` 提前结束 kernel。
+
+[close_test.dart](test/close_test.dart) 验证了关闭先完成、底层操作继续完成，以及迟到的状态不会发出。
+
 ## 辅助工具
 
 - vscode extension: [cms](https://marketplace.visualstudio.com/items?itemName=dzylikecode.cms-generator)

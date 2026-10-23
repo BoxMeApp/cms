@@ -167,6 +167,14 @@ class M extends Cms<S, A> {
 }
 ```
 
+## Closing During Async Work
+
+With the default event scheduling, `await cms.close()` can finish before the Future awaited by an active `kernel` completes. Bloc cancels the event's emitter, and CMS checks `emit.isDone` to discard the state returned later.
+
+The underlying operation is not cancelled. For example, a repository save can still finish after the settings page closes. An extra stop signal or `Future.any` is unnecessary solely to prevent state emissions after closing.
+
+[close_test.dart](test/close_test.dart) verifies that closing finishes first, the underlying work still completes, and its late state is not emitted.
+
 ## Helper Tools
 
 - vscode extension: [cms](https://marketplace.visualstudio.com/items?itemName=dzylikecode.cms-generator)
